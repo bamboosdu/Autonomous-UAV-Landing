@@ -1,0 +1,3 @@
+/home/zq/zq/git-space/drone_about/aruco_board/write_camera/CMakeFiles/rebuild_cache.dir
+/home/zq/zq/git-space/drone_about/aruco_board/write_camera/CMakeFiles/edit_cache.dir
+/home/zq/zq/git-space/drone_about/aruco_board/write_camera/CMakeFiles/ModelWash.dir
