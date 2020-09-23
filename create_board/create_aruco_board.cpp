@@ -1,7 +1,8 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/aruco.hpp>
-
+#include <iostream>
 using namespace cv;
+using namespace std;
 
 namespace {
 const char* about = "Create an ArUco grid board image";
@@ -31,8 +32,10 @@ int main(int argc, char *argv[]) {
 
     int markersX = parser.get<int>("w");
     int markersY = parser.get<int>("h");
-    int markerLength = parser.get<int>("l");
-    int markerSeparation = parser.get<int>("s");
+    // int markerLength = parser.get<int>("l");
+    // int markerSeparation = parser.get<int>("s");
+    float markerLength = parser.get<float>("l");
+    float markerSeparation = parser.get<float>("s");
     int dictionaryId = parser.get<int>("d");
     int margins = markerSeparation;
     if(parser.has("m")) {
@@ -40,7 +43,7 @@ int main(int argc, char *argv[]) {
     }
 
     int borderBits = parser.get<int>("bb");
-    bool showImage = parser.get<bool>("si");
+    bool showImage = true;
 
     String out = parser.get<String>(0);
 
@@ -49,24 +52,32 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    Size imageSize;
-    imageSize.width = markersX * (markerLength + markerSeparation) - markerSeparation + 2 * margins;
-    imageSize.height =
-        markersY * (markerLength + markerSeparation) - markerSeparation + 2 * margins;
-
+    // Size2f imageSize;
+    
+    // imageSize.width = markersX * (markerLength + markerSeparation) - markerSeparation + 2 * margins;
+    // imageSize.height =markersY * (markerLength + markerSeparation) - markerSeparation + 2 * margins;
+    Size imageSize(2624,1886);
+    cout<<"imageSize is :"<<imageSize<<endl;
+    // Size imageSize(2624,1886);
     Ptr<aruco::Dictionary> dictionary =
         aruco::getPredefinedDictionary(aruco::PREDEFINED_DICTIONARY_NAME(dictionaryId));
-
+    cout<<"markersX:="<<markersX<<endl;
+    cout<<"markersY:="<<markersY<<endl;
+    cout<<"markersLength:="<<markerLength<<endl;
+    cout<<"markersSeparation:="<<markerSeparation<<endl;
+    cout<<"dictionary:="<<dictionary<<endl;
     Ptr<aruco::GridBoard> board = aruco::GridBoard::create(markersX, markersY, float(markerLength),
                                                       float(markerSeparation), dictionary);
 
     // show created board
     Mat boardImage;
+    cout<<"I am drawing"<<endl;
     board->draw(imageSize, boardImage, margins, borderBits);
 
     if(showImage) {
         imshow("board", boardImage);
         waitKey();
+        cout<<"I am showinhg"<<endl;
     }
 
     imwrite(out, boardImage);

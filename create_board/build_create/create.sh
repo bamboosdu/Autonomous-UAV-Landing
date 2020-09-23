@@ -1,2 +1,2 @@
 #!/bin/sh
-./ModelWash "./aboard.png" -w=5 -h=7 -l=100 -s=10 -d=10
+./ModelWash "./aboard.png" -w=4 -h=3 -l=0.04 -s=0.01 -d=10

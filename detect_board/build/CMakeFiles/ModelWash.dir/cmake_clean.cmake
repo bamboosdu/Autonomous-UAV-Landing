@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ModelWash.dir/detect_board.cpp.o"
+  "CMakeFiles/ModelWash.dir/include/Utils.cpp.o"
   "ModelWash"
   "ModelWash.pdb"
 )

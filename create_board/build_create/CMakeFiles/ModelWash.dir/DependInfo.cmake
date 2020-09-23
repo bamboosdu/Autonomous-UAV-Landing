@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/zq/zq/git-space/drone_about/aruco_board/create_aruco_board.cpp" "/home/zq/zq/git-space/drone_about/aruco_board/build_create/CMakeFiles/ModelWash.dir/create_aruco_board.cpp.o"
+  "/home/zq/zq/git-space/drone_about/aruco_board/create_board/create_aruco_board.cpp" "/home/zq/zq/git-space/drone_about/aruco_board/create_board/build_create/CMakeFiles/ModelWash.dir/create_aruco_board.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

@@ -169,6 +169,33 @@ detect_board.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/detect_board.cpp.s
 .PHONY : detect_board.cpp.s
 
+include/Utils.o: include/Utils.cpp.o
+
+.PHONY : include/Utils.o
+
+# target to build an object file
+include/Utils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/include/Utils.cpp.o
+.PHONY : include/Utils.cpp.o
+
+include/Utils.i: include/Utils.cpp.i
+
+.PHONY : include/Utils.i
+
+# target to preprocess a source file
+include/Utils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/include/Utils.cpp.i
+.PHONY : include/Utils.cpp.i
+
+include/Utils.s: include/Utils.cpp.s
+
+.PHONY : include/Utils.s
+
+# target to generate assembly for a file
+include/Utils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/include/Utils.cpp.s
+.PHONY : include/Utils.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -181,6 +208,9 @@ help:
 	@echo "... detect_board.o"
 	@echo "... detect_board.i"
 	@echo "... detect_board.s"
+	@echo "... include/Utils.o"
+	@echo "... include/Utils.i"
+	@echo "... include/Utils.s"
 .PHONY : help
 
 

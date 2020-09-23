@@ -6,10 +6,12 @@
 
 #IncludeRegexTransform: 
 
-/home/zq/zq/git-space/drone_about/aruco_board/create_aruco_board.cpp
+/home/zq/zq/git-space/drone_about/aruco_board/create_board/create_aruco_board.cpp
 opencv2/highgui.hpp
 -
 opencv2/aruco.hpp
+-
+iostream
 -
 
 /usr/local/include/opencv4/opencv2/aruco.hpp
