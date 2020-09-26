@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(ModelWash)
-set(CMAKE_BUILD_TYPE Release)#compile mode
+set(CMAKE_BUILD_TYPE Debug)#compile mode
 set(PROJECT_SOURCE_DIR ${/home/zq/zq/git-space/drone_about/aruco_board/detect_board})
 
 #set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)#set path of executable file

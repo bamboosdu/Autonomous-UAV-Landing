@@ -3,16 +3,20 @@
 #include <vector>
 #include <iostream>
 #include <opencv2/calib3d.hpp>
-// #include <opencv2/core/eigen.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/video/tracking.hpp>
 #include <sstream>
-// #include <>
 #include <Utils.h>
+
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+#include <opencv2/core/eigen.hpp>
+#include <stdio.h>
 
 using namespace std;
 using namespace cv;
+using namespace Eigen;
 
 namespace {
 const char* about = "Pose estimation using a ArUco Planar Grid board";
@@ -46,9 +50,6 @@ static bool readCameraParameters(string filename, Mat &camMatrix, Mat &distCoeff
     cerr << distCoeffs << endl;
     return true;
 }
-
-
-
 /**
  */
 static bool readDetectorParameters(string filename, Ptr<aruco::DetectorParameters> &params) {
@@ -77,19 +78,6 @@ static bool readDetectorParameters(string filename, Ptr<aruco::DetectorParameter
     fs["errorCorrectionRate"] >> params->errorCorrectionRate;
     return true;
 }
-
-
-// Eigen::Vector3d toVector3d(const cv::Vec3d& cvVector){
-//     Eigen::Vector3d v;
-//     v<<cvVector(0),cvVector(1),cvVector(2);
-//     return v;
-// }
-// Eigen::AngleAxisd toAngleAxisd(const cv::Vec3d& cvVector){
-//     Eigen::AngleAxisd v;
-//     v(cvVector(0),cvVector(1),cvVector(2));
-//     return v;
-// }
-
 /*
 get euler angles from rotation matrix
  */
@@ -119,9 +107,8 @@ void updateKalmanFilter( KalmanFilter &KF, Mat &measurements,
                          Mat &translation_estimated, Mat &rotation_estimated );
 void fillMeasurements( Mat &measurements,
                        const Mat &translation_measured, const Mat &rotation_measured);
+void rot_euler(const Mat &rotation_matrix, Mat &euler);
 
-/**
- */
 int main(int argc, char *argv[]) {
     CommandLineParser parser(argc, argv, keys);
     parser.about(about);
@@ -171,9 +158,6 @@ int main(int argc, char *argv[]) {
         video = parser.get<String>("v");
     }
 
-    // if(!parser.check()) {fond_face
-    //     return 0;
-    // }
     //get predefined dictionary
     Ptr<aruco::Dictionary> dictionary =
         aruco::getPredefinedDictionary(aruco::PREDEFINED_DICTIONARY_NAME(dictionaryId));
@@ -187,6 +171,14 @@ int main(int argc, char *argv[]) {
         inputVideo.open(camId);
         waitTime = 10;
     }
+
+    if(!inputVideo.isOpened()){
+        CV_Assert("Cam open failed");
+    }
+    inputVideo.set(cv::CAP_PROP_FRAME_WIDTH,1280);
+    inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT,720);
+
+
     //lenght of axis
     float axisLength = 0.5f * ((float)min(markersX, markersY) * (markerLength + markerSeparation) +
                                markerSeparation);
@@ -199,7 +191,9 @@ int main(int argc, char *argv[]) {
     double totalTime = 0;
     int totalIterations = 0;
 
-    //
+    /************************************************************************************
+                                       Kalman filter parameter
+    **************************************************************************************/
     KalmanFilter KF;             // instantiate Kalman Filter
     int nStates = 18;            // the number of states
     int nMeasurements = 6;       // the number of measured states
@@ -209,7 +203,7 @@ int main(int argc, char *argv[]) {
     initKalmanFilter(KF, nStates, nMeasurements, nInputs, dt);    // init function
     Mat measurements(nMeasurements, 1, CV_64FC1); measurements.setTo(Scalar(0));
     bool good_measurement = false;
-
+    /*************************************************************************************/
 
     while(inputVideo.grab()) {
         Mat image, imageCopy;
@@ -246,40 +240,53 @@ int main(int argc, char *argv[]) {
             // tvec[0]=tvec[0]-0.12;
             // tvec[0]=tvec[0]-0.12;
             // tvec[2]=tvec[2]-0.12;
-    /**********************************************************************************************************
-                                                To get Camera pose
-        As we get the rotation vector and translation vector of the board wrt. camera , we need to transform the 
-    point into the coordinate system of the marker board.
-        There are two ways to figure out.
-        1. Just like below
-        2. Using decomposeProjectionMatrix()  
-    **********************************************************************************************************/
+            /**********************************************************************************************************
+                                                      To get Camera pose
+            As we get the rotation vector and translation vector of the board wrt. camera , we need to transform the 
+            point into the coordinate system of the marker board.
+            There are two ways to figure out.
+            1. Just like below
+            2. Using decomposeProjectionMatrix()  
+            **********************************************************************************************************/
             Mat R_cv, T_cv,camera_R,camera_T;
-            cv::Rodrigues(rvec, R_cv);//calculate your markerboard pose----rotation matrix
-            camera_R=R_cv.t();            //calculate your camera pose---- rotation matrix
-            camera_T=-camera_R*tvec;          //calculate your camera translation------translation vector
+            cv::Rodrigues(rvec, R_cv);      //calculate your markerboard pose----rotation matrix
+            camera_R=R_cv.t();              //calculate your camera pose---- rotation matrix
+            camera_T=-camera_R*tvec;        //calculate your camera translation------translation vector
             
-   
+            Eigen::MatrixXd camera_r_eigen(3,3);
+            cv2eigen(camera_R, camera_r_eigen);
 
-            // cout<<"Camera rotation matrix is:\n"<<camera_R<<endl;
-            // cout<<"Camera translation vector is:\n"<<camera_T<<endl;
-          
-           
-            getEulerAngles(camera_R,eulerAngles);
-            Mat kf_eulers(3, 1, CV_64F);
-            kf_eulers = rot2euler(camera_R);
-            cout<<"Euler angles-1:"<<eulerAngles<<endl;
-            cout<<"Euler angles-2:"<<kf_eulers.t()*180/CV_PI<<endl;
+            cout<<"matrix:\n"<<camera_R<<endl;
+            cout<<"matrixxd:\n"<<camera_r_eigen<<endl;
+            
+
+            // Eigen::Quaterniond EigenQuat(camera_r_eigen);
+            // getchar();
+            // Eigen::Quaterniond q;
+            // q=camera_r_eigen;
+            // cout<<"quaternion = \n"<<q.coeffs()<<endl;
+
+
+            
+            
+            
+            // getEulerAngles(camera_R,eulerAngles);
+            // cout<<"Euler angles-1:"<<eulerAngles<<endl;
             // pitch=eulerAngles[0];  //roll
             // yaw=eulerAngles[1];    //pitch
             // roll=eulerAngles[2];   //yaw
-            roll=eulerAngles[0];  //roll
-            pitch=eulerAngles[1];    //pitch
-            yaw=eulerAngles[2];   //yaw
+            Mat kf_eulers(3, 1, CV_64F);
+            kf_eulers = rot2euler(camera_R);
+            cout<<"Euler angles:"<<kf_eulers.t()*180/CV_PI<<endl;
+            roll=kf_eulers.at<double>(0)*180/CV_PI;  //roll
+            pitch=kf_eulers.at<double>(1)*180/CV_PI;    //pitch
+            yaw=kf_eulers.at<double>(2)*180/CV_PI;   //yaw
     
-    /**********************************************************************************************************
+            /**********************************************************************************************************
+                                                        
                                                         Kalman Filter
-    **********************************************************************************************************/
+    
+            **********************************************************************************************************/
             fillMeasurements(measurements,camera_T,camera_R);
             good_measurement=true;
         
@@ -287,21 +294,14 @@ int main(int argc, char *argv[]) {
         Mat rotation_estimated(3, 3, CV_64F);
         updateKalmanFilter(KF,measurements,translation_estimated,rotation_estimated);
 
-        // cout<<"translation_estimated:\n"<<translation_estimated<<endl;
-        // cout<<"rotation_estimated:\n"<<rotation_estimated<<endl;
-        //test
+        //get the updated attitude
         Mat measured_eulers(3, 1, CV_64F);
         measured_eulers = rot2euler(rotation_estimated);
         double roll_kf=measured_eulers.at<double>(0)*180/CV_PI;
         double pitch_kf=measured_eulers.at<double>(1)*180/CV_PI;
         double yaw_kf=measured_eulers.at<double>(2)*180/CV_PI;
-    
 
-        cout<<"euler_1 "<<"roll="<<roll<<" pitch="<<pitch<<" yaw="<<yaw<<endl;
-        cout<<"euler_2 "<<"roll="<<roll_kf<<" pitch="<<pitch_kf<<" yaw="<<yaw_kf<<endl;
-
-    
-     /**********************************************************************************************************/
+        /**********************************************************************************************************/
 
 
 
@@ -310,24 +310,26 @@ int main(int argc, char *argv[]) {
         totalTime += currentTime;
         totalIterations++;
         if(totalIterations % 30 == 0) {
-            // cout << "Detection Time = " << currentTime * 1000 << " ms "
-                //  << "(Mean = " << 1000 * totalTime / double(totalIterations) << " ms)" << endl;
+            cout << "Detection Time = " << currentTime * 1000 << " ms "
+                 << "(Mean = " << 1000 * totalTime / double(totalIterations) << " ms)" << endl;
         }
 
-        // draw results
+        /**********************************************************************************************************
+                                 
+                                 Draw the position and the attitude of the camera
+        
+        **********************************************************************************************************/
         image.copyTo(imageCopy);
         if(ids.size() > 0) {
             aruco::drawDetectedMarkers(imageCopy, corners, ids);
             
         }
-        /**********************************************************************************************************
-                                 draw the position and the attitude of the camera
-        **********************************************************************************************************/
+        
         stringstream s1,s2,s3,s4,s5;
-        s1<<"Drone Position: x="<<int(translation_estimated.at<double>(0,0)*100)<<" y="<<int(translation_estimated.at<double>(1,0)*100)<<" z="<<int(translation_estimated.at<double>(2,0)*100);
+        s1<<"Drone Position: x="<<int(camera_T.at<double>(0,0)*100)<<" y="<<int(camera_T.at<double>(1,0)*100)<<" z="<<int(camera_T.at<double>(2,0)*100);
         s2<<"Drone Attitude: yaw="<<int(yaw)<<" pitch="<<int(pitch)<<" roll="<<int(roll);
         s3<<"After Kalman filter";
-        s4<<"Drone Position: x="<<int(camera_T.at<double>(0,0)*100)<<" y="<<int(camera_T.at<double>(1,0)*100)<<" z="<<int(camera_T.at<double>(2,0)*100);
+        s4<<"Drone Position: x="<<int(translation_estimated.at<double>(0,0)*100)<<" y="<<int(translation_estimated.at<double>(1,0)*100)<<" z="<<int(translation_estimated.at<double>(2,0)*100);
         s5<<"Drone Attitude: yaw="<<int(yaw_kf)<<" pitch="<<int(pitch_kf)<<" roll="<<int(roll_kf);
 
         String position=s1.str();
@@ -358,15 +360,22 @@ int main(int argc, char *argv[]) {
         cv::putText(imageCopy,kf_position,fourth_position,font_face,font_scale,cv::Scalar(0,255,0),thinkness,8,0);
         cv::putText(imageCopy,kf_attitude,fifth_position,font_face,font_scale,cv::Scalar(0,255,0),thinkness,8,0);
         
-
+        /********************************************************************************************/
+        
         if(showRejected && rejected.size() > 0)
             aruco::drawDetectedMarkers(imageCopy, rejected, noArray(), Scalar(100, 0, 255));
         // aruco::drawPlanarBoard(board, camMatrix, distCoeffs, rvec, tvec, axisLength)
+
+        // tvec[0]=tvec[0]-0.12;
+        // tvec[1]=tvec[1]-0.12;
+        // tvec[2]=tvec[2]-0.12;
 
         if(markersOfBoardDetected > 0)
             aruco::drawAxis(imageCopy, camMatrix, distCoeffs, rvec, tvec, axisLength);
 
         imshow("out", imageCopy);
+        cv::imwrite("i.jpg",imageCopy);
+        // getChar();
         char key = (char)waitKey(waitTime);
         if(key == 27) break;
     }
@@ -483,4 +492,8 @@ void fillMeasurements( Mat &measurements,
     measurements.at<double>(3) = measured_eulers.at<double>(0);      // roll
     measurements.at<double>(4) = measured_eulers.at<double>(1);      // pitch
     measurements.at<double>(5) = measured_eulers.at<double>(2);      // yaw
+}
+
+void rot_euler(const Mat &rotation_matrix, Mat &euler){
+    euler=rot2euler(rotation_matrix);
 }
