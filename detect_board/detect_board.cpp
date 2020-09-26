@@ -175,8 +175,8 @@ int main(int argc, char *argv[]) {
     if(!inputVideo.isOpened()){
         CV_Assert("Cam open failed");
     }
-    inputVideo.set(cv::CAP_PROP_FRAME_WIDTH,1280);
-    inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT,720);
+    inputVideo.set(cv::CAP_PROP_FRAME_WIDTH,960);
+    inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT,540);
 
 
     //lenght of axis
