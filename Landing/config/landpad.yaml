@@ -1,0 +1,2 @@
+## landpad_det 降落板边长(默认0.6m)，0.6m包括边缘白色部分，黑色部分边长为0.4m
+landpad_det_len: 0.06

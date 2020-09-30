@@ -1,0 +1,3 @@
+/home/zq/zq/script/Landing/build/CMakeFiles/edit_cache.dir
+/home/zq/zq/script/Landing/build/CMakeFiles/rebuild_cache.dir
+/home/zq/zq/script/Landing/build/CMakeFiles/landing.dir
