@@ -112,12 +112,27 @@ void rot_euler(const Mat &rotation_matrix, Mat &euler);
 int main(int argc, char *argv[]) {
     CommandLineParser parser(argc, argv, keys);
     parser.about(about);
-
     if(argc < 7) {
         parser.printMessage();
         return 0;
     }
-
+    /*****************************************************************************
+    *                  The parameters of marker detection
+    *      "{w        |       | Number of squares in X direction }"
+        "{h        |       | Number of squares in Y direction }"
+        "{l        |       | Marker side lenght (in pixels) }"
+        "{s        |       | Separation between two consecutive markers in the grid (in pixels)}"
+        "{d        |       | dictionary: DICT_4X4_50=0, DICT_4X4_100=1, DICT_4X4_250=2,"
+        "DICT_4X4_1000=3, DICT_5X5_50=4, DICT_5X5_100=5, DICT_5X5_250=6, DICT_5X5_1000=7, "
+        "DICT_6X6_50=8, DICT_6X6_100=9, DICT_6X6_250=10, DICT_6X6_1000=11, DICT_7X7_50=12,"
+        "DICT_7X7_100=13, DICT_7X7_250=14, DICT_7X7_1000=15, DICT_ARUCO_ORIGINAL = 16}"
+        "{c        |       | Output file with calibrated camera parameters }"
+        "{v        |       | Input from video file, if ommited, input comes from camera }"
+        "{ci       | 0     | Camera id if input doesnt come from video (-v) }"
+        "{dp       |       | File of marker detector parameters }"
+        "{rs       |       | Apply refind strategy }"
+        "{r        |       | show rejected candidates too }"
+    ******************************************************************************/
     int markersX = parser.get<int>("w");
     int markersY = parser.get<int>("h");
     float markerLength = parser.get<float>("l");
@@ -152,15 +167,16 @@ int main(int argc, char *argv[]) {
     }
     detectorParams->cornerRefinementMethod = aruco::CORNER_REFINE_SUBPIX; // do corner refinement in markers
     
+
+    //get predefined dictionary
+    Ptr<aruco::Dictionary> dictionary =
+        aruco::getPredefinedDictionary(aruco::PREDEFINED_DICTIONARY_NAME(dictionaryId));
+
     //capture video
     String video;
     if(parser.has("v")) {
         video = parser.get<String>("v");
     }
-
-    //get predefined dictionary
-    Ptr<aruco::Dictionary> dictionary =
-        aruco::getPredefinedDictionary(aruco::PREDEFINED_DICTIONARY_NAME(dictionaryId));
 
     VideoCapture inputVideo;
     int waitTime;
@@ -175,8 +191,8 @@ int main(int argc, char *argv[]) {
     if(!inputVideo.isOpened()){
         CV_Assert("Cam open failed");
     }
-    inputVideo.set(cv::CAP_PROP_FRAME_WIDTH,1280);//1280 720
-    inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT,720);
+    inputVideo.set(cv::CAP_PROP_FRAME_WIDTH,800);//1280 720
+    inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT,600);
 
 
     //lenght of axis
