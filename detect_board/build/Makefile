@@ -142,32 +142,32 @@ marker/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/build
 .PHONY : marker/fast
 
-detect_aruco_marker.o: detect_aruco_marker.cpp.o
+detect_multi_markers.o: detect_multi_markers.cpp.o
 
-.PHONY : detect_aruco_marker.o
+.PHONY : detect_multi_markers.o
 
 # target to build an object file
-detect_aruco_marker.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/detect_aruco_marker.cpp.o
-.PHONY : detect_aruco_marker.cpp.o
+detect_multi_markers.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/detect_multi_markers.cpp.o
+.PHONY : detect_multi_markers.cpp.o
 
-detect_aruco_marker.i: detect_aruco_marker.cpp.i
+detect_multi_markers.i: detect_multi_markers.cpp.i
 
-.PHONY : detect_aruco_marker.i
+.PHONY : detect_multi_markers.i
 
 # target to preprocess a source file
-detect_aruco_marker.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/detect_aruco_marker.cpp.i
-.PHONY : detect_aruco_marker.cpp.i
+detect_multi_markers.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/detect_multi_markers.cpp.i
+.PHONY : detect_multi_markers.cpp.i
 
-detect_aruco_marker.s: detect_aruco_marker.cpp.s
+detect_multi_markers.s: detect_multi_markers.cpp.s
 
-.PHONY : detect_aruco_marker.s
+.PHONY : detect_multi_markers.s
 
 # target to generate assembly for a file
-detect_aruco_marker.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/detect_aruco_marker.cpp.s
-.PHONY : detect_aruco_marker.cpp.s
+detect_multi_markers.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/detect_multi_markers.cpp.s
+.PHONY : detect_multi_markers.cpp.s
 
 include/Utils.o: include/Utils.cpp.o
 
@@ -205,9 +205,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... marker"
-	@echo "... detect_aruco_marker.o"
-	@echo "... detect_aruco_marker.i"
-	@echo "... detect_aruco_marker.s"
+	@echo "... detect_multi_markers.o"
+	@echo "... detect_multi_markers.i"
+	@echo "... detect_multi_markers.s"
 	@echo "... include/Utils.o"
 	@echo "... include/Utils.i"
 	@echo "... include/Utils.s"

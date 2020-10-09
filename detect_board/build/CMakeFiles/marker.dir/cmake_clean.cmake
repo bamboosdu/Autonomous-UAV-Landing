@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/marker.dir/detect_aruco_marker.cpp.o"
+  "CMakeFiles/marker.dir/detect_multi_markers.cpp.o"
   "CMakeFiles/marker.dir/include/Utils.cpp.o"
   "marker"
   "marker.pdb"
