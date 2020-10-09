@@ -76,18 +76,18 @@ include CMakeFiles/marker.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/marker.dir/flags.make
 
-CMakeFiles/marker.dir/detect_aruco_marker.cpp.o: CMakeFiles/marker.dir/flags.make
-CMakeFiles/marker.dir/detect_aruco_marker.cpp.o: ../detect_aruco_marker.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zq/zq/git-space/drone_about/aruco_board/detect_board/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/marker.dir/detect_aruco_marker.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/marker.dir/detect_aruco_marker.cpp.o -c /home/zq/zq/git-space/drone_about/aruco_board/detect_board/detect_aruco_marker.cpp
+CMakeFiles/marker.dir/detect_multi_markers.cpp.o: CMakeFiles/marker.dir/flags.make
+CMakeFiles/marker.dir/detect_multi_markers.cpp.o: ../detect_multi_markers.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zq/zq/git-space/drone_about/aruco_board/detect_board/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/marker.dir/detect_multi_markers.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/marker.dir/detect_multi_markers.cpp.o -c /home/zq/zq/git-space/drone_about/aruco_board/detect_board/detect_multi_markers.cpp
 
-CMakeFiles/marker.dir/detect_aruco_marker.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/marker.dir/detect_aruco_marker.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zq/zq/git-space/drone_about/aruco_board/detect_board/detect_aruco_marker.cpp > CMakeFiles/marker.dir/detect_aruco_marker.cpp.i
+CMakeFiles/marker.dir/detect_multi_markers.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/marker.dir/detect_multi_markers.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zq/zq/git-space/drone_about/aruco_board/detect_board/detect_multi_markers.cpp > CMakeFiles/marker.dir/detect_multi_markers.cpp.i
 
-CMakeFiles/marker.dir/detect_aruco_marker.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/marker.dir/detect_aruco_marker.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zq/zq/git-space/drone_about/aruco_board/detect_board/detect_aruco_marker.cpp -o CMakeFiles/marker.dir/detect_aruco_marker.cpp.s
+CMakeFiles/marker.dir/detect_multi_markers.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/marker.dir/detect_multi_markers.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zq/zq/git-space/drone_about/aruco_board/detect_board/detect_multi_markers.cpp -o CMakeFiles/marker.dir/detect_multi_markers.cpp.s
 
 CMakeFiles/marker.dir/include/Utils.cpp.o: CMakeFiles/marker.dir/flags.make
 CMakeFiles/marker.dir/include/Utils.cpp.o: ../include/Utils.cpp
@@ -104,13 +104,13 @@ CMakeFiles/marker.dir/include/Utils.cpp.s: cmake_force
 
 # Object files for target marker
 marker_OBJECTS = \
-"CMakeFiles/marker.dir/detect_aruco_marker.cpp.o" \
+"CMakeFiles/marker.dir/detect_multi_markers.cpp.o" \
 "CMakeFiles/marker.dir/include/Utils.cpp.o"
 
 # External object files for target marker
 marker_EXTERNAL_OBJECTS =
 
-marker: CMakeFiles/marker.dir/detect_aruco_marker.cpp.o
+marker: CMakeFiles/marker.dir/detect_multi_markers.cpp.o
 marker: CMakeFiles/marker.dir/include/Utils.cpp.o
 marker: CMakeFiles/marker.dir/build.make
 marker: /usr/local/lib/libopencv_gapi.so.4.2.0
