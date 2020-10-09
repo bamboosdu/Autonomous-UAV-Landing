@@ -6,10 +6,24 @@
 
 #IncludeRegexTransform: 
 
-/home/zq/zq/git-space/drone_about/aruco_board/create_board/create_aruco_marker.cpp
+/home/zq/zq/git-space/drone_about/aruco_board/detect_board/detect_aruco_marker.cpp
 opencv2/highgui.hpp
 -
 opencv2/aruco.hpp
+-
+iostream
+-
+
+/home/zq/zq/git-space/drone_about/aruco_board/detect_board/include/Utils.cpp
+iostream
+-
+Utils.h
+/home/zq/zq/git-space/drone_about/aruco_board/detect_board/include/Utils.h
+
+/home/zq/zq/git-space/drone_about/aruco_board/detect_board/include/Utils.h
+iostream
+-
+opencv2/features2d.hpp
 -
 
 /usr/local/include/opencv4/opencv2/aruco.hpp

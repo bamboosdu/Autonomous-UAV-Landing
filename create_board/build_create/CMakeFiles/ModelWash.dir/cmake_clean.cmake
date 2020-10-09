@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/ModelWash.dir/create_aruco_board.cpp.o"
+  "CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.o"
   "ModelWash"
   "ModelWash.pdb"
 )

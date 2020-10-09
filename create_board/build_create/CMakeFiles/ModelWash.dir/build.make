@@ -76,27 +76,27 @@ include CMakeFiles/ModelWash.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/ModelWash.dir/flags.make
 
-CMakeFiles/ModelWash.dir/create_aruco_board.cpp.o: CMakeFiles/ModelWash.dir/flags.make
-CMakeFiles/ModelWash.dir/create_aruco_board.cpp.o: ../create_aruco_board.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zq/zq/git-space/drone_about/aruco_board/create_board/build_create/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ModelWash.dir/create_aruco_board.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ModelWash.dir/create_aruco_board.cpp.o -c /home/zq/zq/git-space/drone_about/aruco_board/create_board/create_aruco_board.cpp
+CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.o: CMakeFiles/ModelWash.dir/flags.make
+CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.o: ../create_aruco_marker.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zq/zq/git-space/drone_about/aruco_board/create_board/build_create/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.o -c /home/zq/zq/git-space/drone_about/aruco_board/create_board/create_aruco_marker.cpp
 
-CMakeFiles/ModelWash.dir/create_aruco_board.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ModelWash.dir/create_aruco_board.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zq/zq/git-space/drone_about/aruco_board/create_board/create_aruco_board.cpp > CMakeFiles/ModelWash.dir/create_aruco_board.cpp.i
+CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zq/zq/git-space/drone_about/aruco_board/create_board/create_aruco_marker.cpp > CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.i
 
-CMakeFiles/ModelWash.dir/create_aruco_board.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ModelWash.dir/create_aruco_board.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zq/zq/git-space/drone_about/aruco_board/create_board/create_aruco_board.cpp -o CMakeFiles/ModelWash.dir/create_aruco_board.cpp.s
+CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zq/zq/git-space/drone_about/aruco_board/create_board/create_aruco_marker.cpp -o CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.s
 
 # Object files for target ModelWash
 ModelWash_OBJECTS = \
-"CMakeFiles/ModelWash.dir/create_aruco_board.cpp.o"
+"CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.o"
 
 # External object files for target ModelWash
 ModelWash_EXTERNAL_OBJECTS =
 
-ModelWash: CMakeFiles/ModelWash.dir/create_aruco_board.cpp.o
+ModelWash: CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.o
 ModelWash: CMakeFiles/ModelWash.dir/build.make
 ModelWash: /usr/local/lib/libopencv_gapi.so.4.2.0
 ModelWash: /usr/local/lib/libopencv_stitching.so.4.2.0

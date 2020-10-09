@@ -177,7 +177,6 @@ int main(int argc, char *argv[]) {
     if(parser.has("v")) {
         video = parser.get<String>("v");
     }
-
     VideoCapture inputVideo;
     int waitTime;
     if(!video.empty()) {
@@ -187,13 +186,11 @@ int main(int argc, char *argv[]) {
         inputVideo.open(camId);
         waitTime = 10;
     }
-
     if(!inputVideo.isOpened()){
         CV_Assert("Cam open failed");
     }
     inputVideo.set(cv::CAP_PROP_FRAME_WIDTH,800);//1280 720
     inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT,600);
-
 
     //lenght of axis
     float axisLength = 0.5f * ((float)min(markersX, markersY) * (markerLength + markerSeparation) +
@@ -265,38 +262,40 @@ int main(int argc, char *argv[]) {
             2. Using decomposeProjectionMatrix()  
             **********************************************************************************************************/
             Mat R_cv, T_cv,camera_R,camera_T;
-            cv::Rodrigues(rvec, R_cv);      //calculate your markerboard pose----rotation matrix
+            cv::Rodrigues(rvec, R_cv);       //calculate your markerboard pose----rotation matrix
             camera_R=R_cv.t();              //calculate your camera pose---- rotation matrix
             camera_T=-camera_R*tvec;        //calculate your camera translation------translation vector
             
+            Mat kf_eulers(3, 1, CV_64F);
+            kf_eulers = rot2euler(camera_R);//convert camera matrix to euler angle
+            cout<<"Euler angles:"<<kf_eulers.t()*180/CV_PI<<endl;
+            roll=kf_eulers.at<double>(0)*180/CV_PI;  //roll
+            pitch=kf_eulers.at<double>(1)*180/CV_PI;    //pitch
+            yaw=kf_eulers.at<double>(2)*180/CV_PI;   //yaw
+
+
+
             Eigen::MatrixXd camera_r_eigen(3,3);
-            cv2eigen(camera_R, camera_r_eigen);
+            cv2eigen(camera_R, camera_r_eigen);// cv::Mat-> Eigen::MatrixXd
 
             cout<<"matrix:\n"<<camera_R<<endl;
             cout<<"matrixxd:\n"<<camera_r_eigen<<endl;
             
-
+            /***
             // Eigen::Quaterniond EigenQuat(camera_r_eigen);
             // getchar();
             // Eigen::Quaterniond q;
             // q=camera_r_eigen;
             // cout<<"quaternion = \n"<<q.coeffs()<<endl;
-
-
-            
-            
             
             // getEulerAngles(camera_R,eulerAngles);
             // cout<<"Euler angles-1:"<<eulerAngles<<endl;
             // pitch=eulerAngles[0];  //roll
             // yaw=eulerAngles[1];    //pitch
             // roll=eulerAngles[2];   //yaw
-            Mat kf_eulers(3, 1, CV_64F);
-            kf_eulers = rot2euler(camera_R);
-            cout<<"Euler angles:"<<kf_eulers.t()*180/CV_PI<<endl;
-            roll=kf_eulers.at<double>(0)*180/CV_PI;  //roll
-            pitch=kf_eulers.at<double>(1)*180/CV_PI;    //pitch
-            yaw=kf_eulers.at<double>(2)*180/CV_PI;   //yaw
+            **/
+            
+            
     
             /**********************************************************************************************************
                                                         
@@ -312,14 +311,12 @@ int main(int argc, char *argv[]) {
 
         //get the updated attitude
         Mat measured_eulers(3, 1, CV_64F);
-        measured_eulers = rot2euler(rotation_estimated);
+        measured_eulers = rot2euler(rotation_estimated);//convert camera matrix to euler angle
         double roll_kf=measured_eulers.at<double>(0)*180/CV_PI;
         double pitch_kf=measured_eulers.at<double>(1)*180/CV_PI;
         double yaw_kf=measured_eulers.at<double>(2)*180/CV_PI;
 
         /**********************************************************************************************************/
-
-
 
         
         double currentTime = ((double)getTickCount() - tick) / getTickFrequency();
@@ -353,6 +350,7 @@ int main(int argc, char *argv[]) {
         String info=s3.str();
         String kf_position=s4.str();
         String kf_attitude=s5.str();
+
         int font_face=cv::FONT_HERSHEY_COMPLEX;
         int baseline;
         double font_scale=0.5;
@@ -380,17 +378,12 @@ int main(int argc, char *argv[]) {
         
         if(showRejected && rejected.size() > 0)
             aruco::drawDetectedMarkers(imageCopy, rejected, noArray(), Scalar(100, 0, 255));
-        // aruco::drawPlanarBoard(board, camMatrix, distCoeffs, rvec, tvec, axisLength)
-
-        // tvec[0]=tvec[0]-0.12;
-        // tvec[1]=tvec[1]-0.12;
-        // tvec[2]=tvec[2]-0.12;
 
         if(markersOfBoardDetected > 0)
             aruco::drawAxis(imageCopy, camMatrix, distCoeffs, rvec, tvec, axisLength);
 
         imshow("out", imageCopy);
-        cv::imwrite("i.jpg",imageCopy);
+        // cv::imwrite("i.jpg",imageCopy);
         // getChar();
         char key = (char)waitKey(waitTime);
         if(key == 27) break;

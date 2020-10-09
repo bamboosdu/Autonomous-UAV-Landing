@@ -72,7 +72,7 @@ CMAKE_BINARY_DIR = /home/zq/zq/git-space/drone_about/aruco_board/detect_board/bu
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/ModelWash.dir/all
+all: CMakeFiles/marker.dir/all
 
 .PHONY : all
 
@@ -82,36 +82,36 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/ModelWash.dir/clean
+clean: CMakeFiles/marker.dir/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/ModelWash.dir
+# Target rules for target CMakeFiles/marker.dir
 
 # All Build rule for target.
-CMakeFiles/ModelWash.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zq/zq/git-space/drone_about/aruco_board/detect_board/build/CMakeFiles --progress-num=1,2,3 "Built target ModelWash"
-.PHONY : CMakeFiles/ModelWash.dir/all
+CMakeFiles/marker.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zq/zq/git-space/drone_about/aruco_board/detect_board/build/CMakeFiles --progress-num=1,2,3 "Built target marker"
+.PHONY : CMakeFiles/marker.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/ModelWash.dir/rule: cmake_check_build_system
+CMakeFiles/marker.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/zq/zq/git-space/drone_about/aruco_board/detect_board/build/CMakeFiles 3
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ModelWash.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/marker.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/zq/zq/git-space/drone_about/aruco_board/detect_board/build/CMakeFiles 0
-.PHONY : CMakeFiles/ModelWash.dir/rule
+.PHONY : CMakeFiles/marker.dir/rule
 
 # Convenience name for target.
-ModelWash: CMakeFiles/ModelWash.dir/rule
+marker: CMakeFiles/marker.dir/rule
 
-.PHONY : ModelWash
+.PHONY : marker
 
 # clean rule for target.
-CMakeFiles/ModelWash.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/clean
-.PHONY : CMakeFiles/ModelWash.dir/clean
+CMakeFiles/marker.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/clean
+.PHONY : CMakeFiles/marker.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
