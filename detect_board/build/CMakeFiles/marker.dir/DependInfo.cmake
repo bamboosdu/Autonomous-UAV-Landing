@@ -4,12 +4,14 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/zq/zq/git-space/drone_about/aruco_board/create_board/create_aruco_marker.cpp" "/home/zq/zq/git-space/drone_about/aruco_board/create_board/build_create/CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.o"
+  "/home/zq/zq/git-space/drone_about/aruco_board/detect_board/detect_aruco_marker.cpp" "/home/zq/zq/git-space/drone_about/aruco_board/detect_board/build/CMakeFiles/marker.dir/detect_aruco_marker.cpp.o"
+  "/home/zq/zq/git-space/drone_about/aruco_board/detect_board/include/Utils.cpp" "/home/zq/zq/git-space/drone_about/aruco_board/detect_board/build/CMakeFiles/marker.dir/include/Utils.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "/usr/include/eigen3"
   "../include"
   "/usr/local/include/opencv4"
   )

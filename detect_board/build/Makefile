@@ -130,44 +130,44 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named ModelWash
+# Target rules for targets named marker
 
 # Build rule for target.
-ModelWash: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ModelWash
-.PHONY : ModelWash
+marker: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 marker
+.PHONY : marker
 
 # fast build rule for target.
-ModelWash/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/build
-.PHONY : ModelWash/fast
+marker/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/build
+.PHONY : marker/fast
 
-detect_board.o: detect_board.cpp.o
+detect_aruco_marker.o: detect_aruco_marker.cpp.o
 
-.PHONY : detect_board.o
+.PHONY : detect_aruco_marker.o
 
 # target to build an object file
-detect_board.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/detect_board.cpp.o
-.PHONY : detect_board.cpp.o
+detect_aruco_marker.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/detect_aruco_marker.cpp.o
+.PHONY : detect_aruco_marker.cpp.o
 
-detect_board.i: detect_board.cpp.i
+detect_aruco_marker.i: detect_aruco_marker.cpp.i
 
-.PHONY : detect_board.i
+.PHONY : detect_aruco_marker.i
 
 # target to preprocess a source file
-detect_board.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/detect_board.cpp.i
-.PHONY : detect_board.cpp.i
+detect_aruco_marker.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/detect_aruco_marker.cpp.i
+.PHONY : detect_aruco_marker.cpp.i
 
-detect_board.s: detect_board.cpp.s
+detect_aruco_marker.s: detect_aruco_marker.cpp.s
 
-.PHONY : detect_board.s
+.PHONY : detect_aruco_marker.s
 
 # target to generate assembly for a file
-detect_board.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/detect_board.cpp.s
-.PHONY : detect_board.cpp.s
+detect_aruco_marker.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/detect_aruco_marker.cpp.s
+.PHONY : detect_aruco_marker.cpp.s
 
 include/Utils.o: include/Utils.cpp.o
 
@@ -175,7 +175,7 @@ include/Utils.o: include/Utils.cpp.o
 
 # target to build an object file
 include/Utils.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/include/Utils.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/include/Utils.cpp.o
 .PHONY : include/Utils.cpp.o
 
 include/Utils.i: include/Utils.cpp.i
@@ -184,7 +184,7 @@ include/Utils.i: include/Utils.cpp.i
 
 # target to preprocess a source file
 include/Utils.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/include/Utils.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/include/Utils.cpp.i
 .PHONY : include/Utils.cpp.i
 
 include/Utils.s: include/Utils.cpp.s
@@ -193,7 +193,7 @@ include/Utils.s: include/Utils.cpp.s
 
 # target to generate assembly for a file
 include/Utils.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/include/Utils.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/include/Utils.cpp.s
 .PHONY : include/Utils.cpp.s
 
 # Help Target
@@ -204,10 +204,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... ModelWash"
-	@echo "... detect_board.o"
-	@echo "... detect_board.i"
-	@echo "... detect_board.s"
+	@echo "... marker"
+	@echo "... detect_aruco_marker.o"
+	@echo "... detect_aruco_marker.i"
+	@echo "... detect_aruco_marker.s"
 	@echo "... include/Utils.o"
 	@echo "... include/Utils.i"
 	@echo "... include/Utils.s"

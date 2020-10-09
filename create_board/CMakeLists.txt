@@ -14,6 +14,7 @@ find_package(OpenCV REQUIRED)#打开opencv安装目录下的opencv.pc就明白�
 include_directories(
 ${PROJECT_SOURCE_DIR}/include 
 )
-add_executable(ModelWash ../create_aruco_board.cpp)#only one main.cpp 
+#add_executable(ModelWash ../create_aruco_board.cpp)#only one main.cpp 
+add_executable(ModelWash ../create_aruco_marker.cpp)#only one main.cpp 
 # 链接OpenCV库
 target_link_libraries( ModelWash ${OpenCV_LIBS})

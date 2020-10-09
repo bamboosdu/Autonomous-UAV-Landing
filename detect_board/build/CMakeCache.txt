@@ -145,7 +145,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=ModelWash
+CMAKE_PROJECT_NAME:STATIC=marker
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -365,6 +365,12 @@ ModelWash_SOURCE_DIR:STATIC=/home/zq/zq/git-space/drone_about/aruco_board/detect
 
 //The directory containing a CMake configuration file for OpenCV.
 OpenCV_DIR:PATH=/usr/local/lib/cmake/opencv4
+
+//Value Computed by CMake
+marker_BINARY_DIR:STATIC=/home/zq/zq/git-space/drone_about/aruco_board/detect_board/build
+
+//Value Computed by CMake
+marker_SOURCE_DIR:STATIC=/home/zq/zq/git-space/drone_about/aruco_board/detect_board
 
 
 ########################

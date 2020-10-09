@@ -142,32 +142,32 @@ ModelWash/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/build
 .PHONY : ModelWash/fast
 
-create_aruco_board.o: create_aruco_board.cpp.o
+create_aruco_marker.o: create_aruco_marker.cpp.o
 
-.PHONY : create_aruco_board.o
+.PHONY : create_aruco_marker.o
 
 # target to build an object file
-create_aruco_board.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/create_aruco_board.cpp.o
-.PHONY : create_aruco_board.cpp.o
+create_aruco_marker.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.o
+.PHONY : create_aruco_marker.cpp.o
 
-create_aruco_board.i: create_aruco_board.cpp.i
+create_aruco_marker.i: create_aruco_marker.cpp.i
 
-.PHONY : create_aruco_board.i
+.PHONY : create_aruco_marker.i
 
 # target to preprocess a source file
-create_aruco_board.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/create_aruco_board.cpp.i
-.PHONY : create_aruco_board.cpp.i
+create_aruco_marker.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.i
+.PHONY : create_aruco_marker.cpp.i
 
-create_aruco_board.s: create_aruco_board.cpp.s
+create_aruco_marker.s: create_aruco_marker.cpp.s
 
-.PHONY : create_aruco_board.s
+.PHONY : create_aruco_marker.s
 
 # target to generate assembly for a file
-create_aruco_board.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/create_aruco_board.cpp.s
-.PHONY : create_aruco_board.cpp.s
+create_aruco_marker.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ModelWash.dir/build.make CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.s
+.PHONY : create_aruco_marker.cpp.s
 
 # Help Target
 help:
@@ -178,9 +178,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... ModelWash"
-	@echo "... create_aruco_board.o"
-	@echo "... create_aruco_board.i"
-	@echo "... create_aruco_board.s"
+	@echo "... create_aruco_marker.o"
+	@echo "... create_aruco_marker.i"
+	@echo "... create_aruco_marker.s"
 .PHONY : help
 
 
