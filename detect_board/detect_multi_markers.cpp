@@ -49,6 +49,10 @@ int main(int argc, char *argv[])
 {
 
     String fname = "./intrisic.xml";
+    int video_l=800;
+    int video_h=600;
+    String video="./drone_1.mp4";
+    bool flag_v=false;
     /***************************************************************************
      * 
      *                                Parameters
@@ -110,25 +114,28 @@ int main(int argc, char *argv[])
      * 
      * ******************************************************************************/
 
-    String video;
+    
     VideoCapture inputVideo;
     int waitTime;
-    if (!video.empty())
+    if (!video.empty()&&flag_v)
     {
+        
         inputVideo.open(video);
-        waitTime = 0;
+        waitTime = 10;
     }
     else
     {
+        cout<<"video is not empty"<<endl;
         inputVideo.open(camId);
+        cout<<"video read failed"<<endl;       
         waitTime = 10;
     }
     if (!inputVideo.isOpened())
     {
         CV_Assert("Cam open failed");
     }
-    inputVideo.set(cv::CAP_PROP_FRAME_WIDTH, 800); //1280 720
-    inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT, 600);
+    inputVideo.set(cv::CAP_PROP_FRAME_WIDTH, video_l); //1280 720
+    inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT,video_h);
 
     double totalTime = 0;
     int totalIterations = 0;
@@ -151,6 +158,17 @@ int main(int argc, char *argv[])
     measurements.setTo(Scalar(0));
     bool good_measurement = false;
     /*************************************************************************************/
+
+    /********************************************************
+    * 
+    * 
+    * 
+    ********************************************************/
+    int myFourCC = VideoWriter::fourcc('m', 'p', '4', 'v');//mp4
+    double rate = inputVideo.get(CAP_PROP_FPS);
+    Size size=Size(video_l,video_h);
+    VideoWriter writer("./result.mp4",myFourCC,rate,size,true);
+
 
     while (inputVideo.grab())
     {
@@ -232,14 +250,7 @@ int main(int argc, char *argv[])
         pitch = kf_eulers.at<double>(1) * 180 / CV_PI; //pitch
         yaw = kf_eulers.at<double>(2) * 180 / CV_PI;   //yaw
 
-        Eigen::MatrixXd camera_r_eigen(3, 3);
-        cv2eigen(camera_R, camera_r_eigen); // cv::Mat-> Eigen::MatrixXd
-
-        cout << "matrix:\n"
-             << camera_R << endl;
-        cout << "matrixxd:\n"
-             << camera_r_eigen << endl;
-
+       
         /**********************************************************************************************************
                                                         
                                                         Kalman Filter
@@ -312,11 +323,11 @@ int main(int argc, char *argv[])
         fifth_position.x = imageCopy.cols / 20;
         fifth_position.y = imageCopy.rows / 15 + 8 * text_size.height;
 
-        cv::putText(imageCopy, position, orgin_position, font_face, font_scale, cv::Scalar(0, 255, 0), thinkness, 8, 0);
-        cv::putText(imageCopy, attitude, second_position, font_face, font_scale, cv::Scalar(0, 255, 0), thinkness, 8, 0);
-        cv::putText(imageCopy, info, third_position, font_face, font_scale, cv::Scalar(0, 255, 0), thinkness, 8, 0);
-        cv::putText(imageCopy, kf_position, fourth_position, font_face, font_scale, cv::Scalar(0, 255, 0), thinkness, 8, 0);
-        cv::putText(imageCopy, kf_attitude, fifth_position, font_face, font_scale, cv::Scalar(0, 255, 0), thinkness, 8, 0);
+        cv::putText(imageCopy, position, orgin_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+        cv::putText(imageCopy, attitude, second_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+        cv::putText(imageCopy, info, third_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+        cv::putText(imageCopy, kf_position, fourth_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+        cv::putText(imageCopy, kf_attitude, fifth_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
 
         /********************************************************************************************/
 
@@ -327,12 +338,16 @@ int main(int argc, char *argv[])
             aruco::drawAxis(imageCopy, camMatrix, distCoeffs, rvec, tvec, axisLength);
 
         imshow("out", imageCopy);
+        writer<<imageCopy;
+
         // cv::imwrite("i.jpg",imageCopy);
         // getChar();
         char key = (char)waitKey(waitTime);
         if (key == 27)
             break;
     }
+    inputVideo.release();
+    writer.release();
 
     return 0;
 }
