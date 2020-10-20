@@ -67,7 +67,10 @@ if __name__ == '__main__':
     # img_dir = "/home/zq/zq/git-space/drone_about/Calibration_ZhangZhengyou_Method/pic/RGB_camera_calib_img"
     inter_corner_shape = (8, 6)
     size_per_grid = 0.0245
-    img_dir = "/home/zq/zq/git-space/drone_about/Calibration_ZhangZhengyou_Method/opencv_save_img/imgs"
+    pwd=os.path.abspath('.')
+    img_dir=os.path.join(pwd+os.sep+"opencv_save_img/build/imgs")
+    print(img_dir)
+    # img_dir = "/home/zq/zq/git-space/drone_about/Calibration_ZhangZhengyou_Method/opencv_save_img/imgs"
     # img_dir = "/home/zq/zq/git-space/drone_about/Calibration_ZhangZhengyou_Method/opencv_save_img/imgs"
     img_type = "png"
     calib(inter_corner_shape, size_per_grid, img_dir,img_type)
