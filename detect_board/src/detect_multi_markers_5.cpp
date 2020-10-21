@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
      * 
     **************************************************************************/
 
-    String fname = "./param/intrisic.xml"; //choose the right intrisic of camera
+    String fname = "../param/intrisic.xml"; //choose the right intrisic of camera
     int video_l = 848;//800                     //choose the right resolution of camera
     int video_h = 480;//600
     bool saveVideo = false; //choose save video or not
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
     int camId = 0;
     //aruco marker parameters
     int dictionaryId_center = 7;
-    float markerLength_center = 0.12;
+    float markerLength_center = 0.22;
 
     // read camera intrisic para
     Mat camMatrix, distCoeffs;

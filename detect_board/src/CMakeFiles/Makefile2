@@ -61,10 +61,10 @@ RM = /usr/local/lib/python2.7/dist-packages/cmake/data/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/zq/zq/drone_about/detect_board
+CMAKE_SOURCE_DIR = /home/zq/zq/drone_about/aruco_board/detect_board
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/zq/zq/drone_about/detect_board/src
+CMAKE_BINARY_DIR = /home/zq/zq/drone_about/aruco_board/detect_board/src
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -91,14 +91,14 @@ clean: CMakeFiles/marker.dir/clean
 CMakeFiles/marker.dir/all:
 	$(MAKE) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/depend
 	$(MAKE) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zq/zq/drone_about/detect_board/src/CMakeFiles --progress-num=1,2,3 "Built target marker"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zq/zq/drone_about/aruco_board/detect_board/src/CMakeFiles --progress-num=1,2,3 "Built target marker"
 .PHONY : CMakeFiles/marker.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/marker.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/zq/zq/drone_about/detect_board/src/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zq/zq/drone_about/aruco_board/detect_board/src/CMakeFiles 3
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/marker.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/zq/zq/drone_about/detect_board/src/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zq/zq/drone_about/aruco_board/detect_board/src/CMakeFiles 0
 .PHONY : CMakeFiles/marker.dir/rule
 
 # Convenience name for target.

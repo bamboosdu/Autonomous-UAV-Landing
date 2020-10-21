@@ -6,25 +6,13 @@
 
 #IncludeRegexTransform: 
 
-.././include/Utils.h
+../include/Utils.h
 iostream
 -
 opencv2/features2d.hpp
 -
 
-/home/zq/zq/drone_about/detect_board/include/Utils.cpp
-iostream
--
-Utils.h
-/home/zq/zq/drone_about/detect_board/include/Utils.h
-
-/home/zq/zq/drone_about/detect_board/include/Utils.h
-iostream
--
-opencv2/features2d.hpp
--
-
-/home/zq/zq/drone_about/detect_board/src/detect_multi_markers_2.cpp
+/home/zq/zq/drone_about/aruco_board/detect_board/src/detect_multi_markers_2.cpp
 opencv2/highgui.hpp
 -
 opencv2/aruco.hpp

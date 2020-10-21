@@ -38,17 +38,17 @@ int main(int argc, char *argv[])
      * 
     **************************************************************************/
 
-    String fname = "./param/intrisic.xml"; //choose the right intrisic of camera
-    int video_l = 848;                     //800                     //choose the right resolution of camera
-    int video_h = 480;                     //600
-    bool saveVideo = false;                //choose save video or not
+    String fname = "../param/intrisic.xml"; //choose the right intrisic of camera
+    int video_l = 848;                      //800                     //choose the right resolution of camera
+    int video_h = 480;                      //600
+    bool saveVideo = false;                 //choose save video or not
 
     bool flag_v = false;              //read video from video or not
     String video = "./drone_1.mp4";   //the name of read video
     String saveName = "./result.mp4"; //the name of saved video
 
     Ptr<cv::aruco::Dictionary> dictionary_d = cv::aruco::getPredefinedDictionary(10);
-    double landpad_det_len = 0.012;
+    double landpad_det_len = 0.192;
 
     /***************************************************************************
      * 
@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
     int nStates = 18;          // the number of states
     int nMeasurements = 6;     // the number of measured states
     int nInputs = 0;           // the number of control actions
-    double dt = 0.125;         // time between measurements (1/FPS)
+    double dt = 0.16;          // time between measurements (1/FPS)
 
     initKalmanFilter(KF, nStates, nMeasurements, nInputs, dt); // init function
     Mat measurements(nMeasurements, 1, CV_64FC1);
@@ -171,6 +171,12 @@ int main(int argc, char *argv[])
         double yaw, roll, pitch;
         double tick = (double)getTickCount();
         int lost, got;
+
+        double rm[9];
+        double tm[3];
+        Mat camera_R, camera_T;
+        camera_R = Mat(3, 3, CV_64FC1, rm);
+        camera_T = Mat(3, 1, CV_64FC2, tm);
         /***********************************************************************************
          * 
          * The detected markers are stored in the markerCorners and markerIds structures:
@@ -182,6 +188,9 @@ int main(int argc, char *argv[])
         vector<int> ids;
         vector<vector<Point2f>> corners, rejected;
         Vec3d rvec, tvec;
+
+        vector<Vec3d> rvec_n, tvec_n;
+
         //marker
         vector<int> ids_center;
         vector<vector<Point2f>> corners_center, rejected_center;
@@ -211,19 +220,17 @@ int main(int argc, char *argv[])
 
         if (markerids.size() > 0)
         {
+
             cv::Point3f A1_Sum_Position_OcInW(0, 0, 0);
             double tx, ty, tz;
             int t = -1;
-            int key=0;
-            printf("test1\n");
+            int key = 0;
             for (int tt = 0; tt < markerids.size(); tt++)
             {
                 if (19 == markerids[tt])
                 {
                     t = tt;
-                    printf("test2 and t=%d\n", t);
-                    printf("markerids:%d\n", markerids[tt]);
-                    key=markerids[tt];
+                    key = markerids[tt];
                 }
             }
             if (-1 == t)
@@ -233,206 +240,138 @@ int main(int argc, char *argv[])
                     if (43 == markerids[tt])
                     {
                         t = tt;
-                        printf("test3 and t=%d\n", t);
-                        printf("markerids:%d\n", markerids[tt]);
-                        key=markerids[tt];
+                        key = markerids[tt];
                     }
                 }
             }
 
-            cv::Mat RoteM, TransM;
-            cv::Point3f Theta_C2W;
-            cv::Point3f Theta_W2C;
-            cv::Point3f Position_OcInW;
-
-            vector<vector<Point2f>> singMarkerCorner_19, singMarkerCorner_43;
-
             if (-1 != t)
             {
-                printf("Hello\n");
-                int k=33;
-                printf("markerids:%d\n", t);
-                cout<<"key: "<<key<<endl;
-                if (19 ==key)
+                cv::Mat RoteM, TransM;
+                cv::Point3f Theta_C2W;
+                cv::Point3f Theta_W2C;
+                cv::Point3f Position_OcInW;
+
+                vector<vector<Point2f>> singMarkerCorner_19, singMarkerCorner_43;
+
+                if (19 == markerids[t])
                 {
-                    cout<<"I am 19"<<endl;   
+
                     singMarkerCorner_19.push_back(markerCorners[t]);
-                    cv::aruco::estimatePoseSingleMarkers(singMarkerCorner_19, landpad_det_len * 0.666667, camMatrix, distCoeffs, rvec, tvec);
-                    printf("I am 19 ending");  
+                    cv::aruco::estimatePoseSingleMarkers(singMarkerCorner_19, landpad_det_len, camMatrix, distCoeffs, rvec_n, tvec_n);
+                    tvec = tvec_n[0];
+                    rvec = rvec_n[0];
                 }
-                else if (43 == key)
+                else if (43 == markerids[t])
                 {
-                    cout<<"I am 43"<<endl;  
+
                     singMarkerCorner_43.push_back(markerCorners[t]);
-                    cv::aruco::estimatePoseSingleMarkers(singMarkerCorner_43, landpad_det_len * 0.066667, camMatrix, distCoeffs, rvec, tvec);
+                    cv::aruco::estimatePoseSingleMarkers(singMarkerCorner_43, landpad_det_len * 0.1, camMatrix, distCoeffs, rvec_n, tvec_n);
+                    cout << "size of rvec is:" << rvec_n.size() << endl;
+                    // getchar();
+                    tvec = tvec_n[0];
+                    rvec = rvec_n[0];
                 }
-                // else
-                // {
-                //     continue;
-                // }
-                double rm[9];
-                RoteM = cv::Mat(3, 3, CV_64FC1, rm);
-                Rodrigues(rvec, RoteM);
-                double r11 = RoteM.ptr<double>(0)[0];
-                double r12 = RoteM.ptr<double>(0)[1];
-                double r13 = RoteM.ptr<double>(0)[2];
-                double r21 = RoteM.ptr<double>(1)[0];
-                double r22 = RoteM.ptr<double>(1)[1];
-                double r23 = RoteM.ptr<double>(1)[2];
-                double r31 = RoteM.ptr<double>(2)[0];
-                double r32 = RoteM.ptr<double>(2)[1];
-                double r33 = RoteM.ptr<double>(2)[2];
-                TransM = tvec;
 
-                // 计算欧拉角
-                double thetaz = atan2(r21, r11) / CV_PI * 180;
-                double thetay = atan2(-1 * r31, sqrt(r32 * r32 + r33 * r33)) / CV_PI * 180;
-                double thetax = atan2(r32, r33) / CV_PI * 180;
+                Mat R_cv;
+                float x, y, z;
+                // double roll, pitch, yaw;
 
-                Theta_C2W.z = thetaz;
-                Theta_C2W.y = thetay;
-                Theta_C2W.x = thetax;
+                cv::Rodrigues(rvec, R_cv);   //calculate your markerboard pose----rotation matrix
+                camera_R = R_cv.t();         //calculate your camera pose---- rotation matrix
+                camera_T = -camera_R * tvec; //calculate your camera translation------translation vector
 
-                Theta_W2C.x = -1 * thetax;
-                Theta_W2C.y = -1 * thetay;
-                Theta_W2C.z = -1 * thetaz;
+                Mat kf_eulers(3, 1, CV_64F);
+                kf_eulers = rot2euler(camera_R); //convert camera matrix to euler angle
+                cout << "Euler angles:" << kf_eulers.t() * 180 / CV_PI << endl;
+                roll = kf_eulers.at<double>(0) * 180 / CV_PI;  //roll
+                pitch = kf_eulers.at<double>(1) * 180 / CV_PI; //pitch
+                yaw = kf_eulers.at<double>(2) * 180 / CV_PI;   //yaw
+                x = camera_T.at<double>(0, 0) * 100;
+                y = camera_T.at<double>(1, 0) * 100;
+                z = camera_T.at<double>(2, 0) * 100;
+                printf("Roll:%f, Pitch:%f, Yaw:%f\n", roll, pitch, yaw);
+                printf("X:%f, Y:%f, Z:%f\n", x, y, z);
 
-                // 偏移向量
-                tx = tvec[0];
-                ty = tvec[1];
-                tz = tvec[2];
+                fillMeasurements(measurements, camera_T, camera_R);
 
-                Position_OcInW.x = tx;
-                Position_OcInW.y = ty;
-                Position_OcInW.z = tz;
-
-                printf("Roll:%d,Pitch:%d,Yaw:%d\n", thetax, thetay, thetaz);
-                // printf("yaw:%")
+                cv::aruco::drawDetectedMarkers(image, markerCorners, markerids);
+                aruco::drawAxis(image, camMatrix, distCoeffs, rvec, tvec, landpad_det_len * 0.5);
             }
         }
-        printf("Ending\n");
-
-        // cout << "IDS_single_marker:" << ids_center.size() << endl;
-        // cout << "IDS_board:" << ids.size() << endl;
-
-        int markersOfBoardDetected = 0;
-
-        Mat R_cv, T_cv, camera_R, camera_T;
-        if (ids.size() > 0 || ids_center.size() > 0) //The big one or the small one is deteceted
-        {
-
-            if (ids_center.size() > 0) // && got > VISION_THRES
-            {
-                aruco::estimatePoseSingleMarkers(corners_center, markerLength_center, camMatrix, distCoeffs, rvecs_center,
-                                                 tvecs_center);
-                rvec = rvecs_center[0];
-                tvec = tvecs_center[0];
-                markersOfBoardDetected = 1;
-            }
-            else
-            {
-                markersOfBoardDetected =
-                    aruco::estimatePoseBoard(corners, ids, board, camMatrix, distCoeffs, rvec, tvec);
-            }
-            /**********************************************************************************************************
-                                                      To get Camera pose
-            As we get the rotation vector and translation vector of the board wrt. camera , we need to transform the 
-            point into the coordinate system of the marker board.
-            There are two ways to figure out.
-            1. Just like below
-            2. Using decomposeProjectionMatrix()  
-            **********************************************************************************************************/
-
-            cv::Rodrigues(rvec, R_cv);   //calculate your markerboard pose----rotation matrix
-            camera_R = R_cv.t();         //calculate your camera pose---- rotation matrix
-            camera_T = -camera_R * tvec; //calculate your camera translation------translation vector
-
-            Mat kf_eulers(3, 1, CV_64F);
-            kf_eulers = rot2euler(camera_R); //convert camera matrix to euler angle
-            // cout << "Euler angles:" << kf_eulers.t() * 180 / CV_PI << endl;
-            roll = kf_eulers.at<double>(0) * 180 / CV_PI;  //roll
-            pitch = kf_eulers.at<double>(1) * 180 / CV_PI; //pitch
-            yaw = kf_eulers.at<double>(2) * 180 / CV_PI;   //yaw
-
-            /**********************************************************************************************************
-                                          imageCopy              
-                                                        Kalman Filter
-                                                Get the updated attitude
-    
-            **********************************************************************************************************/
-            fillMeasurements(measurements, camera_T, camera_R);
-
-        } //*TODO THE POSITION IS CONFUSING
-
-        // update the Kalman filter with good measurements, otherwise with previous valid measurements
-        Mat translation_estimated(3, 1, CV_64F);
-        Mat rotation_estimated(3, 3, CV_64F);
-        updateKalmanFilter(KF, measurements, translation_estimated, rotation_estimated);
-
-        //get the updated attitude
-        Mat measured_eulers(3, 1, CV_64F);
-        measured_eulers = rot2euler(rotation_estimated); //convert camera matrix to euler angle
-        double roll_kf = measured_eulers.at<double>(0) * 180 / CV_PI;
-        double pitch_kf = measured_eulers.at<double>(1) * 180 / CV_PI;
-        double yaw_kf = measured_eulers.at<double>(2) * 180 / CV_PI;
-        // cout << "KF:" << ids.size() << endl;
-        /**********************************************************************************************************
-                                 
-                                 Draw the position and the attitude of the camera
-        
-        **********************************************************************************************************/
         image.copyTo(imageCopy);
-        // cout << "KF2:" << ids.size() << endl;
-        if (ids.size() > 0)
-        {
-            aruco::drawDetectedMarkers(imageCopy, corners, ids);
-        }
+        int markersOfBoardDetected = 0;
+        stringstream s1, s2, s3, s4, s5;
+        s1 << "Drone Position: x=" << int(camera_T.at<double>(0, 0) * 100) << " y=" << int(camera_T.at<double>(1, 0) * 100) << " z=" << int(camera_T.at<double>(2, 0) * 100);
+        s2 << "Drone Attitude: yaw=" << int(yaw) << " pitch=" << int(pitch) << " roll=" << int(roll);
+        s3 << "After Kalman filter";
+        // s4 << "Drone Position: x=" << int(translation_estimated.at<double>(0, 0) * 100) << " y=" << int(translation_estimated.at<double>(1, 0) * 100) << " z=" << int(translation_estimated.at<double>(2, 0) * 100);
+        // s5 << "Drone Attitude: yaw=" << int(yaw_kf) << " pitch=" << int(pitch_kf) << " roll=" << int(roll_kf);
+
+        String position = s1.str();
+        String attitude = s2.str();
+
+        int font_face = cv::FONT_HERSHEY_COMPLEX;
+        int baseline;
+        double font_scale = 0.5;
+        int thinkness = 1.8;
+        cv::Size text_size = cv::getTextSize(position, font_face, font_scale, thinkness, &baseline);
+        cv::Point orgin_position, second_position, third_position, fourth_position, fifth_position;
+
+        orgin_position.x = imageCopy.cols / 20;
+        orgin_position.y = imageCopy.rows / 15;
+        second_position.x = imageCopy.cols / 20;
+        second_position.y = imageCopy.rows / 15 + 2 * text_size.height;
+
+        cv::putText(imageCopy, position, orgin_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+        cv::putText(imageCopy, attitude, second_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+
         if (markersOfBoardDetected)
         {
 
-            stringstream s1, s2, s3, s4, s5;
-            s1 << "Drone Position: x=" << int(camera_T.at<double>(0, 0) * 100) << " y=" << int(camera_T.at<double>(1, 0) * 100) << " z=" << int(camera_T.at<double>(2, 0) * 100);
-            s2 << "Drone Attitude: yaw=" << int(yaw) << " pitch=" << int(pitch) << " roll=" << int(roll);
-            s3 << "After Kalman filter";
-            s4 << "Drone Position: x=" << int(translation_estimated.at<double>(0, 0) * 100) << " y=" << int(translation_estimated.at<double>(1, 0) * 100) << " z=" << int(translation_estimated.at<double>(2, 0) * 100);
-            s5 << "Drone Attitude: yaw=" << int(yaw_kf) << " pitch=" << int(pitch_kf) << " roll=" << int(roll_kf);
+            // stringstream s1, s2, s3, s4, s5;
+            // s1 << "Drone Position: x=" << int(camera_T.at<double>(0, 0) * 100) << " y=" << int(camera_T.at<double>(1, 0) * 100) << " z=" << int(camera_T.at<double>(2, 0) * 100);
+            // s2 << "Drone Attitude: yaw=" << int(yaw) << " pitch=" << int(pitch) << " roll=" << int(roll);
+            // s3 << "After Kalman filter";
+            // s4 << "Drone Position: x=" << int(translation_estimated.at<double>(0, 0) * 100) << " y=" << int(translation_estimated.at<double>(1, 0) * 100) << " z=" << int(translation_estimated.at<double>(2, 0) * 100);
+            // s5 << "Drone Attitude: yaw=" << int(yaw_kf) << " pitch=" << int(pitch_kf) << " roll=" << int(roll_kf);
 
-            //set_vision_position_estimate(int(camera_T.at<double>(0, 0) * 100),int(camera_T.at<double>(1, 0) * 100),int(camera_T.at<double>(2, 0) * 100),int(roll),int(pitch),int(yaw),100);
+            // //set_vision_position_estimate(int(camera_T.at<double>(0, 0) * 100),int(camera_T.at<double>(1, 0) * 100),int(camera_T.at<double>(2, 0) * 100),int(roll),int(pitch),int(yaw),100);
 
-            cout << s4.str() << endl;
-            cout << s5.str() << endl;
-            String position = s1.str();
-            String attitude = s2.str();
-            String info = s3.str();
-            String kf_position = s4.str();
-            String kf_attitude = s5.str();
+            // cout << s4.str() << endl;
+            // cout << s5.str() << endl;
+            // String position = s1.str();
+            // String attitude = s2.str();
+            // String info = s3.str();
+            // String kf_position = s4.str();
+            // String kf_attitude = s5.str();
 
-            int font_face = cv::FONT_HERSHEY_COMPLEX;
-            int baseline;
-            double font_scale = 0.5;
-            int thinkness = 1.8;
-            cv::Size text_size = cv::getTextSize(position, font_face, font_scale, thinkness, &baseline);
-            cv::Point orgin_position, second_position, third_position, fourth_position, fifth_position;
-            orgin_position.x = imageCopy.cols / 20;
-            orgin_position.y = imageCopy.rows / 15;
-            second_position.x = imageCopy.cols / 20;
-            second_position.y = imageCopy.rows / 15 + 2 * text_size.height;
-            third_position.x = imageCopy.cols / 20;
-            third_position.y = imageCopy.rows / 15 + 4 * text_size.height;
-            fourth_position.x = imageCopy.cols / 20;
-            fourth_position.y = imageCopy.rows / 15 + 6 * text_size.height;
-            fifth_position.x = imageCopy.cols / 20;
-            fifth_position.y = imageCopy.rows / 15 + 8 * text_size.height;
+            // int font_face = cv::FONT_HERSHEY_COMPLEX;
+            // int baseline;
+            // double font_scale = 0.5;
+            // int thinkness = 1.8;
+            // cv::Size text_size = cv::getTextSize(position, font_face, font_scale, thinkness, &baseline);
+            // cv::Point orgin_position, second_position, third_position, fourth_position, fifth_position;
+            // orgin_position.x = imageCopy.cols / 20;
+            // orgin_position.y = imageCopy.rows / 15;
+            // second_position.x = imageCopy.cols / 20;
+            // second_position.y = imageCopy.rows / 15 + 2 * text_size.height;
+            // third_position.x = imageCopy.cols / 20;
+            // third_position.y = imageCopy.rows / 15 + 4 * text_size.height;
+            // fourth_position.x = imageCopy.cols / 20;
+            // fourth_position.y = imageCopy.rows / 15 + 6 * text_size.height;
+            // fifth_position.x = imageCopy.cols / 20;
+            // fifth_position.y = imageCopy.rows / 15 + 8 * text_size.height;
 
-            cv::putText(imageCopy, position, orgin_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
-            cv::putText(imageCopy, attitude, second_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
-            cv::putText(imageCopy, info, third_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
-            cv::putText(imageCopy, kf_position, fourth_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
-            cv::putText(imageCopy, kf_attitude, fifth_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+            // cv::putText(imageCopy, position, orgin_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+            // cv::putText(imageCopy, attitude, second_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+            // cv::putText(imageCopy, info, third_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+            // cv::putText(imageCopy, kf_position, fourth_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+            // cv::putText(imageCopy, kf_attitude, fifth_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
 
-            /********************************************************************************************/
-            if (markersOfBoardDetected > 0)
-                aruco::drawAxis(imageCopy, camMatrix, distCoeffs, rvec, tvec, axisLength);
+            // /********************************************************************************************/
+            // if (markersOfBoardDetected > 0)
+            //     aruco::drawAxis(imageCopy, camMatrix, distCoeffs, rvec, tvec, axisLength);
         }
 
         imshow("out", imageCopy);
