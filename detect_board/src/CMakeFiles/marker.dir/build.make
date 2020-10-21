@@ -60,10 +60,10 @@ RM = /usr/local/lib/python2.7/dist-packages/cmake/data/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/zq/zq/drone_about/detect_board
+CMAKE_SOURCE_DIR = /home/zq/zq/drone_about/aruco_board/detect_board
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/zq/zq/drone_about/detect_board/src
+CMAKE_BINARY_DIR = /home/zq/zq/drone_about/aruco_board/detect_board/src
 
 # Include any dependencies generated for this target.
 include CMakeFiles/marker.dir/depend.make
@@ -76,29 +76,29 @@ include CMakeFiles/marker.dir/flags.make
 
 CMakeFiles/marker.dir/detect_multi_markers_2.cpp.o: CMakeFiles/marker.dir/flags.make
 CMakeFiles/marker.dir/detect_multi_markers_2.cpp.o: detect_multi_markers_2.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zq/zq/drone_about/detect_board/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/marker.dir/detect_multi_markers_2.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/marker.dir/detect_multi_markers_2.cpp.o -c /home/zq/zq/drone_about/detect_board/src/detect_multi_markers_2.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zq/zq/drone_about/aruco_board/detect_board/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/marker.dir/detect_multi_markers_2.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/marker.dir/detect_multi_markers_2.cpp.o -c /home/zq/zq/drone_about/aruco_board/detect_board/src/detect_multi_markers_2.cpp
 
 CMakeFiles/marker.dir/detect_multi_markers_2.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/marker.dir/detect_multi_markers_2.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zq/zq/drone_about/detect_board/src/detect_multi_markers_2.cpp > CMakeFiles/marker.dir/detect_multi_markers_2.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zq/zq/drone_about/aruco_board/detect_board/src/detect_multi_markers_2.cpp > CMakeFiles/marker.dir/detect_multi_markers_2.cpp.i
 
 CMakeFiles/marker.dir/detect_multi_markers_2.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/marker.dir/detect_multi_markers_2.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zq/zq/drone_about/detect_board/src/detect_multi_markers_2.cpp -o CMakeFiles/marker.dir/detect_multi_markers_2.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zq/zq/drone_about/aruco_board/detect_board/src/detect_multi_markers_2.cpp -o CMakeFiles/marker.dir/detect_multi_markers_2.cpp.s
 
 CMakeFiles/marker.dir/include/Utils.cpp.o: CMakeFiles/marker.dir/flags.make
 CMakeFiles/marker.dir/include/Utils.cpp.o: ../include/Utils.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zq/zq/drone_about/detect_board/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/marker.dir/include/Utils.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/marker.dir/include/Utils.cpp.o -c /home/zq/zq/drone_about/detect_board/include/Utils.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zq/zq/drone_about/aruco_board/detect_board/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/marker.dir/include/Utils.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/marker.dir/include/Utils.cpp.o -c /home/zq/zq/drone_about/aruco_board/detect_board/include/Utils.cpp
 
 CMakeFiles/marker.dir/include/Utils.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/marker.dir/include/Utils.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zq/zq/drone_about/detect_board/include/Utils.cpp > CMakeFiles/marker.dir/include/Utils.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zq/zq/drone_about/aruco_board/detect_board/include/Utils.cpp > CMakeFiles/marker.dir/include/Utils.cpp.i
 
 CMakeFiles/marker.dir/include/Utils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/marker.dir/include/Utils.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zq/zq/drone_about/detect_board/include/Utils.cpp -o CMakeFiles/marker.dir/include/Utils.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zq/zq/drone_about/aruco_board/detect_board/include/Utils.cpp -o CMakeFiles/marker.dir/include/Utils.cpp.s
 
 # Object files for target marker
 marker_OBJECTS = \
@@ -229,7 +229,7 @@ marker: /usr/local/lib/opencv4/3rdparty/libittnotify.a
 marker: /usr/lib/x86_64-linux-gnu/libGL.so
 marker: /usr/lib/x86_64-linux-gnu/libGLU.so
 marker: CMakeFiles/marker.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/zq/zq/drone_about/detect_board/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable marker"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/zq/zq/drone_about/aruco_board/detect_board/src/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable marker"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/marker.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -242,6 +242,6 @@ CMakeFiles/marker.dir/clean:
 .PHONY : CMakeFiles/marker.dir/clean
 
 CMakeFiles/marker.dir/depend:
-	cd /home/zq/zq/drone_about/detect_board/src && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/zq/zq/drone_about/detect_board /home/zq/zq/drone_about/detect_board /home/zq/zq/drone_about/detect_board/src /home/zq/zq/drone_about/detect_board/src /home/zq/zq/drone_about/detect_board/src/CMakeFiles/marker.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/zq/zq/drone_about/aruco_board/detect_board/src && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/zq/zq/drone_about/aruco_board/detect_board /home/zq/zq/drone_about/aruco_board/detect_board /home/zq/zq/drone_about/aruco_board/detect_board/src /home/zq/zq/drone_about/aruco_board/detect_board/src /home/zq/zq/drone_about/aruco_board/detect_board/src/CMakeFiles/marker.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/marker.dir/depend
 

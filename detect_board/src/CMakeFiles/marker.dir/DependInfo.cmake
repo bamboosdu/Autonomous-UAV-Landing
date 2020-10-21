@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/zq/zq/drone_about/detect_board/src/detect_multi_markers_2.cpp" "/home/zq/zq/drone_about/detect_board/src/CMakeFiles/marker.dir/detect_multi_markers_2.cpp.o"
-  "/home/zq/zq/drone_about/detect_board/include/Utils.cpp" "/home/zq/zq/drone_about/detect_board/src/CMakeFiles/marker.dir/include/Utils.cpp.o"
+  "/home/zq/zq/drone_about/aruco_board/detect_board/src/detect_multi_markers_2.cpp" "/home/zq/zq/drone_about/aruco_board/detect_board/src/CMakeFiles/marker.dir/detect_multi_markers_2.cpp.o"
+  "/home/zq/zq/drone_about/aruco_board/detect_board/include/Utils.cpp" "/home/zq/zq/drone_about/aruco_board/detect_board/src/CMakeFiles/marker.dir/include/Utils.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

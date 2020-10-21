@@ -3,7 +3,7 @@
 
 CMakeFiles/marker.dir/detect_multi_markers_2.cpp.o
  ../include/Utils.h
- /home/zq/zq/drone_about/detect_board/src/detect_multi_markers_2.cpp
+ /home/zq/zq/drone_about/aruco_board/detect_board/src/detect_multi_markers_2.cpp
  /usr/include/eigen3/Eigen/Cholesky
  /usr/include/eigen3/Eigen/Core
  /usr/include/eigen3/Eigen/Geometry
@@ -322,8 +322,8 @@ CMakeFiles/marker.dir/detect_multi_markers_2.cpp.o
  /usr/local/include/opencv4/opencv2/videostab/stabilizer.hpp
  /usr/local/include/opencv4/opencv2/videostab/wobble_suppression.hpp
 CMakeFiles/marker.dir/include/Utils.cpp.o
- /home/zq/zq/drone_about/detect_board/include/Utils.cpp
- /home/zq/zq/drone_about/detect_board/include/Utils.h
+ /home/zq/zq/drone_about/aruco_board/detect_board/include/Utils.cpp
+ /home/zq/zq/drone_about/aruco_board/detect_board/include/Utils.h
  /usr/local/include/opencv4/opencv2/calib3d.hpp
  /usr/local/include/opencv4/opencv2/core.hpp
  /usr/local/include/opencv4/opencv2/core/affine.hpp

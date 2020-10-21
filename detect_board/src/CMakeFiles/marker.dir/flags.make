@@ -6,5 +6,5 @@ CXX_FLAGS = -g -std=c++11 -Wformat=0 -Wall    -O3 -DNDEBUG
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/usr/include/eigen3 -I/home/zq/zq/drone_about/detect_board/./include -isystem /usr/local/include/opencv4 
+CXX_INCLUDES = -I/usr/include/eigen3 -I/home/zq/zq/drone_about/aruco_board/detect_board/./include -isystem /usr/local/include/opencv4 
 
