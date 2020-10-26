@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     **************************************************************************/
 
     String fname = "../param/intrisic.xml"; //choose the right intrisic of camera
-    int video_l = 848;                      //800                     //choose the right resolution of camera
+    int video_l = 640;                      //800                     //choose the right resolution of camera
     int video_h = 480;                      //600
     bool saveVideo = false;                 //choose save video or not
 
@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
 
     /******************************************************************************
      * 
-     *                                       Capture video
+     *                                    Capture video from device
      * 
      * ******************************************************************************/
 
@@ -144,33 +144,31 @@ int main(int argc, char *argv[])
     VideoWriter writer(saveName, myFourCC, rate, size, true);
 
     /************************************************************************************
-    *                                   
-    *                                    Kalman filter parameter
-    * 
-    **************************************************************************************/
+         *                                   
+        *                                    Kalman filter parameter
+        * 
+        **************************************************************************************/
     // Kalman Filter parameters
-    int minInliersKalman = 30; // Kalman threshold updating
-    KalmanFilter KF;           // instantiate Kalman Filter
-    int nStates = 18;          // the number of states
-    int nMeasurements = 6;     // the number of measured states
-    int nInputs = 0;           // the number of control actions
-    double dt = 0.16;          // time between measurements (1/FPS)
+    // int minInliersKalman = 30; // Kalman threshold updating
+    KalmanFilter KF;       // instantiate Kalman Filter
+    int nStates = 18;      // the number of states
+    int nMeasurements = 6; // the number of measured states
+    int nInputs = 0;       // the number of control actions
+    double dt = 0.125;     // time between measurements (1/FPS)
 
     initKalmanFilter(KF, nStates, nMeasurements, nInputs, dt); // init function
     Mat measurements(nMeasurements, 1, CV_64FC1);
     measurements.setTo(Scalar(0));
     bool good_measurement = false;
     /*************************************************************************************/
+    int lost, got = 1;
 
     while (inputVideo.grab())
     {
         Mat image, imageCopy;
         inputVideo.retrieve(image);
-        Vec3d cam_rvec, cam_tvec;
-        Vec3d eulerAngles;
-        double yaw, roll, pitch;
-        double tick = (double)getTickCount();
-        int lost, got;
+
+        double yaw = 0, roll = 0, pitch = 0;
 
         double rm[9];
         double tm[3];
@@ -184,34 +182,8 @@ int main(int argc, char *argv[])
          * !for each of the markers in markerCorners
          * 
          * ****************************************************************************8**/
-        //aruco board
-        vector<int> ids;
-        vector<vector<Point2f>> corners, rejected;
         Vec3d rvec, tvec;
-
         vector<Vec3d> rvec_n, tvec_n;
-
-        //marker
-        vector<int> ids_center;
-        vector<vector<Point2f>> corners_center, rejected_center;
-        vector<Vec3d> rvecs_center, tvecs_center;
-
-        /***********************************************************************************
-         * 
-         *                      Detect the board and the marker
-         * 
-         * ****************************************************************************8**/
-
-        // detect aruco board
-        aruco::detectMarkers(image, dictionary, corners, ids, detectorParams, rejected);
-
-        //detect aruco marker
-        aruco::detectMarkers(image, dictionary_center, corners_center, ids_center,
-                             detectorParams, rejected_center);
-        // refind strategy to detect more markers
-        if (refindStrategy)
-            aruco::refineDetectedMarkers(image, board, corners, ids, rejected, camMatrix,
-                                         distCoeffs);
 
         std::vector<int> markerids;
         vector<vector<Point2f>> markerCorners, rejectedCandidate;
@@ -292,87 +264,80 @@ int main(int argc, char *argv[])
                 z = camera_T.at<double>(2, 0) * 100;
                 printf("Roll:%f, Pitch:%f, Yaw:%f\n", roll, pitch, yaw);
                 printf("X:%f, Y:%f, Z:%f\n", x, y, z);
-
+                if (got < 100)
+                {
+                    got++;
+                }
                 fillMeasurements(measurements, camera_T, camera_R);
-
                 cv::aruco::drawDetectedMarkers(image, markerCorners, markerids);
                 aruco::drawAxis(image, camMatrix, distCoeffs, rvec, tvec, landpad_det_len * 0.5);
             }
         }
+        else
+        {
+            if (got > 1)
+            {
+                got--;
+            }
+        }
+
+        // update the Kalman filter with good measurements, otherwise with previous valid measurements
+        Mat translation_estimated(3, 1, CV_64F);
+        Mat rotation_estimated(3, 3, CV_64F);
+        updateKalmanFilter(KF, measurements, translation_estimated, rotation_estimated);
+        //get the updated attitude
+        Mat measured_eulers(3, 1, CV_64F);
+        measured_eulers = rot2euler(rotation_estimated); //convert camera matrix to euler angle
+        double roll_kf = measured_eulers.at<double>(0) * 180 / CV_PI;
+        double pitch_kf = measured_eulers.at<double>(1) * 180 / CV_PI;
+        double yaw_kf = measured_eulers.at<double>(2) * 180 / CV_PI;
+        double x_kf = translation_estimated.at<double>(0, 0);
+        double y_kf = translation_estimated.at<double>(1, 0);
+        double z_kf = translation_estimated.at<double>(2, 0);
+
         image.copyTo(imageCopy);
-        int markersOfBoardDetected = 0;
-        stringstream s1, s2, s3, s4, s5;
+
+        stringstream s1, s2, s3, s4, s5, s6;
         s1 << "Drone Position: x=" << int(camera_T.at<double>(0, 0) * 100) << " y=" << int(camera_T.at<double>(1, 0) * 100) << " z=" << int(camera_T.at<double>(2, 0) * 100);
         s2 << "Drone Attitude: yaw=" << int(yaw) << " pitch=" << int(pitch) << " roll=" << int(roll);
         s3 << "After Kalman filter";
-        // s4 << "Drone Position: x=" << int(translation_estimated.at<double>(0, 0) * 100) << " y=" << int(translation_estimated.at<double>(1, 0) * 100) << " z=" << int(translation_estimated.at<double>(2, 0) * 100);
-        // s5 << "Drone Attitude: yaw=" << int(yaw_kf) << " pitch=" << int(pitch_kf) << " roll=" << int(roll_kf);
+        s4 << "Drone Position: x=" << int(x_kf * 100) << " y=" << int(y_kf * 100) << " z=" << int(z_kf * 100);
+        s5 << "Drone Attitude: yaw=" << int(yaw_kf) << " pitch=" << int(pitch_kf) << " roll=" << int(roll_kf);
+        s6 << "Confidence: conf=" << got;
 
         String position = s1.str();
         String attitude = s2.str();
+        String info = s3.str();
+        String kf_position = s4.str();
+        String kf_attitude = s5.str();
+        String confidence_s = s6.str();
 
         int font_face = cv::FONT_HERSHEY_COMPLEX;
         int baseline;
         double font_scale = 0.5;
         int thinkness = 1.8;
         cv::Size text_size = cv::getTextSize(position, font_face, font_scale, thinkness, &baseline);
-        cv::Point orgin_position, second_position, third_position, fourth_position, fifth_position;
+        cv::Point orgin_position, second_position, third_position, fourth_position, fifth_position, six_position;
 
         orgin_position.x = imageCopy.cols / 20;
         orgin_position.y = imageCopy.rows / 15;
         second_position.x = imageCopy.cols / 20;
         second_position.y = imageCopy.rows / 15 + 2 * text_size.height;
+        third_position.x = imageCopy.cols / 20;
+        third_position.y = imageCopy.rows / 15 + 4 * text_size.height;
+        fourth_position.x = imageCopy.cols / 20;
+        fourth_position.y = imageCopy.rows / 15 + 6 * text_size.height;
+        fifth_position.x = imageCopy.cols / 20;
+        fifth_position.y = imageCopy.rows / 15 + 8 * text_size.height;
+        six_position.x = imageCopy.cols / 20;
+        six_position.y = imageCopy.rows / 15 + 10 * text_size.height;
 
         cv::putText(imageCopy, position, orgin_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
         cv::putText(imageCopy, attitude, second_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
-
-        if (markersOfBoardDetected)
-        {
-
-            // stringstream s1, s2, s3, s4, s5;
-            // s1 << "Drone Position: x=" << int(camera_T.at<double>(0, 0) * 100) << " y=" << int(camera_T.at<double>(1, 0) * 100) << " z=" << int(camera_T.at<double>(2, 0) * 100);
-            // s2 << "Drone Attitude: yaw=" << int(yaw) << " pitch=" << int(pitch) << " roll=" << int(roll);
-            // s3 << "After Kalman filter";
-            // s4 << "Drone Position: x=" << int(translation_estimated.at<double>(0, 0) * 100) << " y=" << int(translation_estimated.at<double>(1, 0) * 100) << " z=" << int(translation_estimated.at<double>(2, 0) * 100);
-            // s5 << "Drone Attitude: yaw=" << int(yaw_kf) << " pitch=" << int(pitch_kf) << " roll=" << int(roll_kf);
-
-            // //set_vision_position_estimate(int(camera_T.at<double>(0, 0) * 100),int(camera_T.at<double>(1, 0) * 100),int(camera_T.at<double>(2, 0) * 100),int(roll),int(pitch),int(yaw),100);
-
-            // cout << s4.str() << endl;
-            // cout << s5.str() << endl;
-            // String position = s1.str();
-            // String attitude = s2.str();
-            // String info = s3.str();
-            // String kf_position = s4.str();
-            // String kf_attitude = s5.str();
-
-            // int font_face = cv::FONT_HERSHEY_COMPLEX;
-            // int baseline;
-            // double font_scale = 0.5;
-            // int thinkness = 1.8;
-            // cv::Size text_size = cv::getTextSize(position, font_face, font_scale, thinkness, &baseline);
-            // cv::Point orgin_position, second_position, third_position, fourth_position, fifth_position;
-            // orgin_position.x = imageCopy.cols / 20;
-            // orgin_position.y = imageCopy.rows / 15;
-            // second_position.x = imageCopy.cols / 20;
-            // second_position.y = imageCopy.rows / 15 + 2 * text_size.height;
-            // third_position.x = imageCopy.cols / 20;
-            // third_position.y = imageCopy.rows / 15 + 4 * text_size.height;
-            // fourth_position.x = imageCopy.cols / 20;
-            // fourth_position.y = imageCopy.rows / 15 + 6 * text_size.height;
-            // fifth_position.x = imageCopy.cols / 20;
-            // fifth_position.y = imageCopy.rows / 15 + 8 * text_size.height;
-
-            // cv::putText(imageCopy, position, orgin_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
-            // cv::putText(imageCopy, attitude, second_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
-            // cv::putText(imageCopy, info, third_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
-            // cv::putText(imageCopy, kf_position, fourth_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
-            // cv::putText(imageCopy, kf_attitude, fifth_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
-
-            // /********************************************************************************************/
-            // if (markersOfBoardDetected > 0)
-            //     aruco::drawAxis(imageCopy, camMatrix, distCoeffs, rvec, tvec, axisLength);
-        }
+        cv::putText(imageCopy, info, third_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+        cv::putText(imageCopy, kf_position, fourth_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+        cv::putText(imageCopy, kf_attitude, fifth_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+        cv::putText(imageCopy, confidence_s, six_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
 
         imshow("out", imageCopy);
         if (saveVideo)

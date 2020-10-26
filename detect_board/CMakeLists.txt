@@ -22,7 +22,8 @@ find_package(Qt5OpenGL REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(VTK REQUIRED)
 
-add_executable(marker ./src/detect_multi_markers_2.cpp ${URLAR_LIB} )#only one main.cpp ${URLAR_LIB}
+add_executable(marker ./src/detect_multi_markers_2.cpp ${URLAR_LIB} )#only one
+
 
 # 链接OpenCV库
 target_link_libraries( marker ${OpenCV_LIBS} )#-lNX_C_Share
