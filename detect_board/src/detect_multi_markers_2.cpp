@@ -13,7 +13,13 @@
 #include <Eigen/Geometry>
 #include <opencv2/core/eigen.hpp>
 #include <stdio.h>
-//#include <NX_C_Share.h>
+#include <NX_C_Share.h>
+
+#include <termios.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stropts.h>
+#include <sys/select.h>
 
 using namespace std;
 using namespace cv;
@@ -30,6 +36,68 @@ void updateKalmanFilter(KalmanFilter &KF, Mat &measurements, Mat &translation_es
 void fillMeasurements(Mat &measurements, const Mat &translation_measured, const Mat &rotation_measured);
 void rot_euler(const Mat &rotation_matrix, Mat &euler);
 
+// bool kbhit()
+// {
+//     termios term;
+//     tcgetattr(0, &term);
+
+//     termios term2 = term;
+//     term2.c_lflag &= ~ICANON;
+//     tcsetattr(0, TCSANOW, &term2);
+
+//     int byteswaiting;
+//     ioctl(0, FIONREAD, &byteswaiting);
+
+//     tcsetattr(0, TCSANOW, &term);
+
+//     return byteswaiting > 0;
+// }
+#include "kbhit.h"
+#include <unistd.h> // read()
+    
+keyboard::keyboard(){
+    tcgetattr(0,&initial_settings);
+    new_settings = initial_settings;
+    new_settings.c_lflag &= ~ICANON;
+    new_settings.c_lflag &= ~ECHO;
+    new_settings.c_lflag &= ~ISIG;
+    new_settings.c_cc[VMIN] = 1;
+    new_settings.c_cc[VTIME] = 0;
+    tcsetattr(0, TCSANOW, &new_settings);
+    peek_character=-1;
+}
+    
+keyboard::~keyboard(){
+    tcsetattr(0, TCSANOW, &initial_settings);
+}
+    
+int keyboard::kbhit(){
+    unsigned char ch;
+    int nread;
+    if (peek_character != -1) return 1;
+    new_settings.c_cc[VMIN]=0;
+    tcsetattr(0, TCSANOW, &new_settings);
+    nread = read(0,&ch,1);
+    new_settings.c_cc[VMIN]=1;
+    tcsetattr(0, TCSANOW, &new_settings);
+
+    if (nread == 1){
+        peek_character = ch;
+        return 1;
+    }
+    return 0;
+}
+    
+int keyboard::getch(){
+    char ch;
+
+    if (peek_character != -1){
+        ch = peek_character;
+        peek_character = -1;
+    }
+    else read(0,&ch,1);
+    return ch;
+}
 int main(int argc, char *argv[])
 {
     /***************************************************************************
@@ -39,13 +107,13 @@ int main(int argc, char *argv[])
     **************************************************************************/
 
     String fname = "../param/intrisic.xml"; //choose the right intrisic of camera
-    int video_l = 640;                      //800                     //choose the right resolution of camera
-    int video_h = 480;                      //600
-    bool saveVideo = false;                 //choose save video or not
+    int video_l = 800;                      //800                     //choose the right resolution of camera
+    int video_h = 600;                      //600
+    bool saveVideo = true;                 //choose save video or not
 
     bool flag_v = false;              //read video from video or not
     String video = "./drone_1.mp4";   //the name of read video
-    String saveName = "./result.mp4"; //the name of saved video
+    String saveName = "./result_001.mp4"; //the name of saved video
 
     Ptr<cv::aruco::Dictionary> dictionary_d = cv::aruco::getPredefinedDictionary(10);
     double landpad_det_len = 0.192;
@@ -111,7 +179,7 @@ int main(int argc, char *argv[])
      * ******************************************************************************/
 
     VideoCapture inputVideo;
-    int waitTime;
+    int waitTime=10;
     if (!video.empty() && flag_v)
     {
 
@@ -129,19 +197,34 @@ int main(int argc, char *argv[])
     {
         CV_Assert("Cam open failed");
     }
+    // cv.waitTime(100)
     inputVideo.set(cv::CAP_PROP_FRAME_WIDTH, video_l); //1280 720
     inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT, video_h);
-
+    // int frameH   = inputVideo.get(cv::CAP_PROP_FRAME_HEIGHT);
+	// int frameW    = inputVideo.get(cv::CAP_PROP_FRAME_WIDTH);
+    // printf(frameH);
+    // printf(frameW);
+    cout<<"width "<<video_l<<endl;
+    cout<<"height "<<video_h<<endl;
+    // getchar();
+    // video_h=1080;
+    // video_l=1920;
     /********************************************************
     * 
     *                   Record the result by video
     * 
     ********************************************************/
 
-    int myFourCC = VideoWriter::fourcc('m', 'p', '4', 'v'); //mp4
+    int myFourCC = VideoWriter::fourcc('M', 'P', '4', '2'); //mp4
     double rate = inputVideo.get(CAP_PROP_FPS);
     Size size = Size(video_l, video_h);
+    
     VideoWriter writer(saveName, myFourCC, rate, size, true);
+    if(!writer.isOpened())
+    {
+ 	cout<< "Error : fail to open video writer\n"<<endl;
+	return -1;
+    }
 
     /************************************************************************************
          *                                   
@@ -167,6 +250,8 @@ int main(int argc, char *argv[])
     {
         Mat image, imageCopy;
         inputVideo.retrieve(image);
+        cout<<image.size()<<endl;
+        // getchar();
 
         double yaw = 0, roll = 0, pitch = 0;
 
@@ -294,7 +379,7 @@ int main(int argc, char *argv[])
         double x_kf = translation_estimated.at<double>(0, 0);
         double y_kf = translation_estimated.at<double>(1, 0);
         double z_kf = translation_estimated.at<double>(2, 0);
-
+  	
         image.copyTo(imageCopy);
 
         stringstream s1, s2, s3, s4, s5, s6;
@@ -311,6 +396,8 @@ int main(int argc, char *argv[])
         String kf_position = s4.str();
         String kf_attitude = s5.str();
         String confidence_s = s6.str();
+        cout<<position<<endl;
+	    cout<<attitude<<endl;
 
         int font_face = cv::FONT_HERSHEY_COMPLEX;
         int baseline;
@@ -338,19 +425,35 @@ int main(int argc, char *argv[])
         cv::putText(imageCopy, kf_position, fourth_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
         cv::putText(imageCopy, kf_attitude, fifth_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
         cv::putText(imageCopy, confidence_s, six_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
-
-        imshow("out", imageCopy);
+        set_vision_position_estimate(float(x_kf),float(y_kf),float(z_kf),float(roll_kf),float(pitch_kf),float(yaw_kf),got);
+        //imshow("out", imageCopy);
+        
         if (saveVideo)
+        {
             writer << imageCopy;
+            cout<<"The frame has been saved"<<endl;
+        }
+            
 
         char key = (char)waitKey(waitTime);
+        keyboard keyb;
+        if(keyb.kbhit())
+        {
+            char key_q=keyb.getch();
+            // break;
+            if(key_q=='q')
+                {break;}
+        }
+        
         if (key == 27)
             break;
     }
     inputVideo.release();
     if (saveVideo)
-        writer.release();
-
+   {    
+       writer.release();
+        cout<<"The video has been saved!"<<endl;
+   }
     return 0;
 }
 

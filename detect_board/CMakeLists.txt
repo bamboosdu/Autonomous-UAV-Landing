@@ -13,6 +13,7 @@ set(CMAKE_BUILD_TYPE Release)#compile mode
 set(URLAR_LIB ../include/Utils.cpp)
 set (CMAKE_CXX_FLAGS "-g -std=c++11 -Wformat=0 -Wall  ${CMAKE_CXX_FLAGS} ") 
 
+link_directories("/home/iking/zq/aruco_board/detect_board/lib")
 # 寻找OpenCV库
 find_package(OpenCV 4.2 REQUIRED)
 find_package(Qt5Widgets REQUIRED)
@@ -26,5 +27,5 @@ add_executable(marker ./src/detect_multi_markers_2.cpp ${URLAR_LIB} )#only one
 
 
 # 链接OpenCV库
-target_link_libraries( marker ${OpenCV_LIBS} )#-lNX_C_Share
+target_link_libraries( marker ${OpenCV_LIBS} -lNX_C_Share)#-lNX_C_Share
 #usr/lib/libNX_C_Share.so
