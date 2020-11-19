@@ -20,6 +20,10 @@
 #include <stdio.h>
 #include <stropts.h>
 #include <sys/select.h>
+#include<fstream>  
+
+
+#include <ctime>
 
 using namespace std;
 using namespace cv;
@@ -35,23 +39,6 @@ void predictKalmanFilter(KalmanFilter &KF, Mat &translation_predicted, Mat &rota
 void updateKalmanFilter(KalmanFilter &KF, Mat &measurements, Mat &translation_estimated, Mat &rotation_estimated);
 void fillMeasurements(Mat &measurements, const Mat &translation_measured, const Mat &rotation_measured);
 void rot_euler(const Mat &rotation_matrix, Mat &euler);
-
-// bool kbhit()
-// {
-//     termios term;
-//     tcgetattr(0, &term);
-
-//     termios term2 = term;
-//     term2.c_lflag &= ~ICANON;
-//     tcsetattr(0, TCSANOW, &term2);
-
-//     int byteswaiting;
-//     ioctl(0, FIONREAD, &byteswaiting);
-
-//     tcsetattr(0, TCSANOW, &term);
-
-//     return byteswaiting > 0;
-// }
 #include "kbhit.h"
 #include <unistd.h> // read()
     
@@ -98,6 +85,52 @@ int keyboard::getch(){
     else read(0,&ch,1);
     return ch;
 }
+// extern "C"{
+// void CLog::WriteLog(const wchar_t* filePath, float x_kf,float y_kf,float z_kf ,float roll_kf ,float pitch_kf ,float yaw_kf,int got)
+// {
+// 		//首先判断文件是否存在，如果不存在则创建，并在开头加入0xfeff;如果存在则直接写入
+// 		if (_waccess(filePath, 0) == -1)
+// 		{
+// 			FILE* fp;
+// 			_wfopen_s(&fp, filePath, L"wb");
+// 			if (fp != NULL)
+// 			{
+// 				uint16_t wSignature = 0xFEFF;
+// 				fwrite(&wSignature, 2, 1, fp);
+// 				SYSTEMTIME st;
+// 				GetLocalTime(&st);
+// 				wchar_t buf[128] = { 0 };
+// 				wchar_t buf_data[128] = { 0 };
+// 				swprintf_s(buf, 128, L"%04d%02d%02d %02d:%02d:%02d	", st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+// 				swprintf_s(buf_data, 128, L"%06f %06f %06f %06f %06f %06f %d	", x_kf, y_kf, z_kf , roll_kf , pitch_kf , yaw_kf, got);
+// 				fwrite(buf, sizeof(wchar_t), wcslen(buf), fp);
+// 				fwrite(buf_data, sizeof(wchar_t), wcslen(buf_data), fp);
+// 				fwrite(L"\r\n", sizeof(wchar_t), 2, fp);
+// 				fclose(fp);
+// 			}
+// 		}
+// 		else 
+// 		{
+// 			FILE* fp;
+// 			_wfopen_s(&fp, filePath, L"ab");
+// 			if (fp != NULL)
+// 			{
+// 				SYSTEMTIME st;
+// 				GetLocalTime(&st);
+// 				wchar_t buf[128] = { 0 };
+// 				wchar_t buf_data[128] = { 0 };
+// 				swprintf_s(buf, 128, L"%04d%02d%02d %02d:%02d:%02d	", st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+// 				swprintf_s(buf_data, 128, L"%06f %06f %06f %06f %06f %06f %d	", x_kf, y_kf, z_kf , roll_kf , pitch_kf , yaw_kf, got);
+// 				fwrite(buf, sizeof(wchar_t), wcslen(buf), fp);
+// 				fwrite(buf_data, sizeof(wchar_t), wcslen(buf_data), fp);
+// 				fwrite(L"\r\n", sizeof(wchar_t), 2, fp);
+// 				fclose(fp);
+// 			}
+// 		}
+//     }
+// 		}
+
+
 int main(int argc, char *argv[])
 {
     /***************************************************************************
@@ -114,7 +147,8 @@ int main(int argc, char *argv[])
     bool flag_v = false;              //read video from video or not
     String video = "./drone_1.mp4";   //the name of read video
     String saveName = "./result_001.mp4"; //the name of saved video
-
+    ofstream fout("uttxt.txt");  
+      
     Ptr<cv::aruco::Dictionary> dictionary_d = cv::aruco::getPredefinedDictionary(10);
     double landpad_det_len = 0.192;
 
@@ -427,6 +461,19 @@ int main(int argc, char *argv[])
         cv::putText(imageCopy, confidence_s, six_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
         set_vision_position_estimate(float(x_kf),float(y_kf),float(z_kf),float(roll_kf),float(pitch_kf),float(yaw_kf),got);
         //imshow("out", imageCopy);
+        time_t now = time(0);
+        struct tm  tstruct;
+        char  buf[80];
+        tstruct = *localtime(&now);
+        strftime(buf, sizeof(buf), "%Y-%m-%d %X", &tstruct);
+
+        
+        // WriteLog(log_file,float(x_kf),float(y_kf),float(z_kf),float(roll_kf),float(pitch_kf),float(yaw_kf),got);
+        
+        fout<<string(buf)<<" "<< float(x_kf)<<" "<< float(y_kf)<<" "<< float(z_kf)<<" "<< float(roll_kf)<<" "<< float(pitch_kf)<<" "<< float(yaw_kf)<<" "<< got<<endl;  
+ 
+
+        
         
         if (saveVideo)
         {
@@ -449,6 +496,8 @@ int main(int argc, char *argv[])
             break;
     }
     inputVideo.release();
+    fout<<flush;  
+    fout.close(); 
     if (saveVideo)
    {    
        writer.release();

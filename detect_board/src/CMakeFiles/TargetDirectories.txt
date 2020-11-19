@@ -1,3 +1,0 @@
-/home/zq/zq/drone_about/aruco_board/detect_board/src/CMakeFiles/rebuild_cache.dir
-/home/zq/zq/drone_about/aruco_board/detect_board/src/CMakeFiles/edit_cache.dir
-/home/zq/zq/drone_about/aruco_board/detect_board/src/CMakeFiles/marker.dir
