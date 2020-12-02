@@ -1,4 +1,4 @@
-# Install script for directory: /home/zq/zq/drone_about/aruco_board/Calibration_ZhangZhengyou_Method/opencv_save_img
+# Install script for directory: /home/iking/zq/aruco_board/Calibration_ZhangZhengyou_Method/opencv_save_img
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/zq/zq/drone_about/aruco_board/Calibration_ZhangZhengyou_Method/opencv_save_img/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/iking/zq/aruco_board/Calibration_ZhangZhengyou_Method/opencv_save_img/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

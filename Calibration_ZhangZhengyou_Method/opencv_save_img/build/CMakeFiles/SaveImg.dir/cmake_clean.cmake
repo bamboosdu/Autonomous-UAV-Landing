@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/SaveImg.dir/src/opencv_save_img.cpp.o"
-  "SaveImg"
   "SaveImg.pdb"
+  "SaveImg"
 )
 
 # Per-language clean rules from dependency scanning.

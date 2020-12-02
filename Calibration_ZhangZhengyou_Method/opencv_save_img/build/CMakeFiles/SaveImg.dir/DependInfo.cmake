@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/zq/zq/drone_about/aruco_board/Calibration_ZhangZhengyou_Method/opencv_save_img/src/opencv_save_img.cpp" "/home/zq/zq/drone_about/aruco_board/Calibration_ZhangZhengyou_Method/opencv_save_img/build/CMakeFiles/SaveImg.dir/src/opencv_save_img.cpp.o"
+  "/home/iking/zq/aruco_board/Calibration_ZhangZhengyou_Method/opencv_save_img/src/opencv_save_img.cpp" "/home/iking/zq/aruco_board/Calibration_ZhangZhengyou_Method/opencv_save_img/build/CMakeFiles/SaveImg.dir/src/opencv_save_img.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
