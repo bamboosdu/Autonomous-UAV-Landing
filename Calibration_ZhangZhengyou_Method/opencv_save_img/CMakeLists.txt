@@ -12,5 +12,7 @@ find_package(Qt5OpenGL REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(VTK REQUIRED)
 
+include_directories("./include")
+
 add_executable(SaveImg ./src/opencv_save_img.cpp ${URLAR_LIB} )#only one main.cpp 
 target_link_libraries( SaveImg ${OpenCV_LIBS})

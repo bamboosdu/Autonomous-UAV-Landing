@@ -6,5 +6,5 @@ CXX_FLAGS = -g -std=c++11 -Wformat=0   -g
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -isystem /usr/local/include/opencv4 
+CXX_INCLUDES = -I/home/iking/zq/aruco_board/Calibration_ZhangZhengyou_Method/opencv_save_img/./include -isystem /usr/local/include/opencv4 
 

@@ -6,8 +6,16 @@
 
 #IncludeRegexTransform: 
 
+.././include/kbhit.h
+termios.h
+-
+
 /home/iking/zq/aruco_board/Calibration_ZhangZhengyou_Method/opencv_save_img/src/opencv_save_img.cpp
 opencv2/opencv.hpp
+-
+kbhit.h
+/home/iking/zq/aruco_board/Calibration_ZhangZhengyou_Method/opencv_save_img/src/kbhit.h
+unistd.h
 -
 
 /usr/local/include/opencv4/opencv2/calib3d.hpp

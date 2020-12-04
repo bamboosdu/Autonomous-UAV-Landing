@@ -21,6 +21,8 @@
 #include <stropts.h>
 #include <sys/select.h>
 #include<fstream>  
+
+
 #include <ctime>
 
 using namespace std;
@@ -28,6 +30,7 @@ using namespace cv;
 using namespace Eigen;
 
 #define VISION_THRES 20
+
 //read camera parameters
 static bool readCameraParameters(string filename, Mat &camMatrix, Mat &distCoeffs);
 //Kalman filter funtions headers
@@ -82,6 +85,50 @@ int keyboard::getch(){
     else read(0,&ch,1);
     return ch;
 }
+// extern "C"{
+// void CLog::WriteLog(const wchar_t* filePath, float x_kf,float y_kf,float z_kf ,float roll_kf ,float pitch_kf ,float yaw_kf,int got)
+// {
+// 		//首先判断文件是否存在，如果不存在则创建，并在开头加入0xfeff;如果存在则直接写入
+// 		if (_waccess(filePath, 0) == -1)
+// 		{
+// 			FILE* fp;
+// 			_wfopen_s(&fp, filePath, L"wb");
+// 			if (fp != NULL)
+// 			{
+// 				uint16_t wSignature = 0xFEFF;
+// 				fwrite(&wSignature, 2, 1, fp);
+// 				SYSTEMTIME st;
+// 				GetLocalTime(&st);
+// 				wchar_t buf[128] = { 0 };
+// 				wchar_t buf_data[128] = { 0 };
+// 				swprintf_s(buf, 128, L"%04d%02d%02d %02d:%02d:%02d	", st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+// 				swprintf_s(buf_data, 128, L"%06f %06f %06f %06f %06f %06f %d	", x_kf, y_kf, z_kf , roll_kf , pitch_kf , yaw_kf, got);
+// 				fwrite(buf, sizeof(wchar_t), wcslen(buf), fp);
+// 				fwrite(buf_data, sizeof(wchar_t), wcslen(buf_data), fp);
+// 				fwrite(L"\r\n", sizeof(wchar_t), 2, fp);
+// 				fclose(fp);
+// 			}
+// 		}
+// 		else 
+// 		{
+// 			FILE* fp;
+// 			_wfopen_s(&fp, filePath, L"ab");
+// 			if (fp != NULL)
+// 			{
+// 				SYSTEMTIME st;
+// 				GetLocalTime(&st);
+// 				wchar_t buf[128] = { 0 };
+// 				wchar_t buf_data[128] = { 0 };
+// 				swprintf_s(buf, 128, L"%04d%02d%02d %02d:%02d:%02d	", st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+// 				swprintf_s(buf_data, 128, L"%06f %06f %06f %06f %06f %06f %d	", x_kf, y_kf, z_kf , roll_kf , pitch_kf , yaw_kf, got);
+// 				fwrite(buf, sizeof(wchar_t), wcslen(buf), fp);
+// 				fwrite(buf_data, sizeof(wchar_t), wcslen(buf_data), fp);
+// 				fwrite(L"\r\n", sizeof(wchar_t), 2, fp);
+// 				fclose(fp);
+// 			}
+// 		}
+//     }
+// 		}
 
 
 int main(int argc, char *argv[])
@@ -92,7 +139,7 @@ int main(int argc, char *argv[])
      * 
     **************************************************************************/
 
-    String fname = "../param/romanc_intrisic.xml"; //choose the right intrisic of camera
+    String fname = "../param/intrisic.xml"; //choose the right intrisic of camera
     int video_l = 800;                      //800                     //choose the right resolution of camera
     int video_h = 600;                      //600
     bool saveVideo = true;                 //choose save video or not
@@ -103,7 +150,7 @@ int main(int argc, char *argv[])
     ofstream fout("uttxt.txt");  
       
     Ptr<cv::aruco::Dictionary> dictionary_d = cv::aruco::getPredefinedDictionary(10);
-    double landpad_det_len = 1.12;
+    double landpad_det_len = 0.192;
 
     /***************************************************************************
      * 
@@ -187,10 +234,15 @@ int main(int argc, char *argv[])
     // cv.waitTime(100)
     inputVideo.set(cv::CAP_PROP_FRAME_WIDTH, video_l); //1280 720
     inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT, video_h);
-    
+    // int frameH   = inputVideo.get(cv::CAP_PROP_FRAME_HEIGHT);
+	// int frameW    = inputVideo.get(cv::CAP_PROP_FRAME_WIDTH);
+    // printf(frameH);
+    // printf(frameW);
     cout<<"width "<<video_l<<endl;
     cout<<"height "<<video_h<<endl;
-    
+    // getchar();
+    // video_h=1080;
+    // video_l=1920;
     /********************************************************
     * 
     *                   Record the result by video
@@ -214,7 +266,7 @@ int main(int argc, char *argv[])
         * 
         **************************************************************************************/
     // Kalman Filter parameters
-    int minInliersKalman = 30; // Kalman threshold updating
+    // int minInliersKalman = 30; // Kalman threshold updating
     KalmanFilter KF;       // instantiate Kalman Filter
     int nStates = 18;      // the number of states
     int nMeasurements = 6; // the number of measured states
@@ -227,7 +279,6 @@ int main(int argc, char *argv[])
     bool good_measurement = false;
     /*************************************************************************************/
     int lost, got = 1;
-    
 
     while (inputVideo.grab())
     {
@@ -252,8 +303,6 @@ int main(int argc, char *argv[])
          * ****************************************************************************8**/
         Vec3d rvec, tvec;
         vector<Vec3d> rvec_n, tvec_n;
-        Mat R_cv;
-        float x, y, z;
 
         std::vector<int> markerids;
         vector<vector<Point2f>> markerCorners, rejectedCandidate;
@@ -315,8 +364,8 @@ int main(int argc, char *argv[])
                     rvec = rvec_n[0];
                 }
 
-                
-                
+                Mat R_cv;
+                float x, y, z;
                 // double roll, pitch, yaw;
 
                 cv::Rodrigues(rvec, R_cv);   //calculate your markerboard pose----rotation matrix
@@ -338,13 +387,7 @@ int main(int argc, char *argv[])
                 {
                     got++;
                 }
-
-                
-                if(z>=0)
-                {
-                  good_measurement=true;// When we got the pose of marker and the z-axis position > 0, we think that it is a good measurement
-                }
-                
+                fillMeasurements(measurements, camera_T, camera_R);
                 cv::aruco::drawDetectedMarkers(image, markerCorners, markerids);
                 aruco::drawAxis(image, camMatrix, distCoeffs, rvec, tvec, landpad_det_len * 0.5);
             }
@@ -356,15 +399,6 @@ int main(int argc, char *argv[])
                 got--;
             }
         }
-        cout<<"camera_T:"<<camera_T<<endl;
-        cout<<"camera_R:"<<camera_R<<endl;
-        // getchar();
-
-        if(good_measurement)
-        {
-            fillMeasurements(measurements, camera_T, camera_R);
-        }
-
 
         // update the Kalman filter with good measurements, otherwise with previous valid measurements
         Mat translation_estimated(3, 1, CV_64F);
@@ -419,12 +453,12 @@ int main(int argc, char *argv[])
         six_position.x = imageCopy.cols / 20;
         six_position.y = imageCopy.rows / 15 + 10 * text_size.height;
 
-        cv::putText(imageCopy, position, orgin_position, font_face, font_scale, cv::Scalar(0, 25, 255), thinkness, 8, 0);
-        cv::putText(imageCopy, attitude, second_position, font_face, font_scale, cv::Scalar(0, 25, 255), thinkness, 8, 0);
-        cv::putText(imageCopy, info, third_position, font_face, font_scale, cv::Scalar(0, 25, 255), thinkness, 8, 0);
-        cv::putText(imageCopy, kf_position, fourth_position, font_face, font_scale, cv::Scalar(0, 25, 255), thinkness, 8, 0);
-        cv::putText(imageCopy, kf_attitude, fifth_position, font_face, font_scale, cv::Scalar(0, 25, 255), thinkness, 8, 0);
-        cv::putText(imageCopy, confidence_s, six_position, font_face, font_scale, cv::Scalar(0, 25, 255), thinkness, 8, 0);
+        cv::putText(imageCopy, position, orgin_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+        cv::putText(imageCopy, attitude, second_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+        cv::putText(imageCopy, info, third_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+        cv::putText(imageCopy, kf_position, fourth_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+        cv::putText(imageCopy, kf_attitude, fifth_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
+        cv::putText(imageCopy, confidence_s, six_position, font_face, font_scale, cv::Scalar(0, 255, 255), thinkness, 8, 0);
         set_vision_position_estimate(float(x_kf),float(y_kf),float(z_kf),float(roll_kf),float(pitch_kf),float(yaw_kf),got);
         //imshow("out", imageCopy);
         time_t now = time(0);
@@ -598,4 +632,3 @@ static bool readCameraParameters(string filename, Mat &camMatrix, Mat &distCoeff
     cerr << distCoeffs << endl;
     return true;
 }
-
