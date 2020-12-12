@@ -188,8 +188,8 @@ int main(int argc, char *argv[])
     inputVideo.set(cv::CAP_PROP_FRAME_WIDTH, video_l); //1280 720
     inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT, video_h);
     
-    cout<<"width "<<video_l<<endl;
-    cout<<"height "<<video_h<<endl;
+    //cout<<"width "<<video_l<<endl;
+    //cout<<"height "<<video_h<<endl;
     
     /********************************************************
     * 
@@ -218,7 +218,7 @@ int main(int argc, char *argv[])
     KalmanFilter KF;       // instantiate Kalman Filter
     int nStates = 18;      // the number of states
     int nMeasurements = 6; // the number of measured states
-    int nInputs = 0;       // the number of control actions
+    int nInputs = 6;       // the number of control actions
     double dt = 0.125;     // time between measurements (1/FPS)
 
     initKalmanFilter(KF, nStates, nMeasurements, nInputs, dt); // init function
@@ -226,14 +226,14 @@ int main(int argc, char *argv[])
     measurements.setTo(Scalar(0));
     bool good_measurement = false;
     /*************************************************************************************/
-    int lost, got = 1;
+    int lost, got = 99;
     
 
     while (inputVideo.grab())
     {
         Mat image, imageCopy;
         inputVideo.retrieve(image);
-        cout<<image.size()<<endl;
+        //cout<<image.size()<<endl;
         // getchar();
 
         double yaw = 0, roll = 0, pitch = 0;
@@ -259,7 +259,8 @@ int main(int argc, char *argv[])
         vector<vector<Point2f>> markerCorners, rejectedCandidate;
         Ptr<cv::aruco::DetectorParameters> parameters = cv::aruco::DetectorParameters::create();
         cv::aruco::detectMarkers(image, dictionary_d, markerCorners, markerids, parameters, rejectedCandidate);
-
+ 
+	sleep(0.5);
         if (markerids.size() > 0)
         {
 
@@ -309,7 +310,7 @@ int main(int argc, char *argv[])
 
                     singMarkerCorner_43.push_back(markerCorners[t]);
                     cv::aruco::estimatePoseSingleMarkers(singMarkerCorner_43, landpad_det_len * 0.1, camMatrix, distCoeffs, rvec_n, tvec_n);
-                    cout << "size of rvec is:" << rvec_n.size() << endl;
+                    //cout << "size of rvec is:" << rvec_n.size() << endl;
                     // getchar();
                     tvec = tvec_n[0];
                     rvec = rvec_n[0];
@@ -325,7 +326,7 @@ int main(int argc, char *argv[])
 
                 Mat kf_eulers(3, 1, CV_64F);
                 kf_eulers = rot2euler(camera_R); //convert camera matrix to euler angle
-                cout << "Euler angles:" << kf_eulers.t() * 180 / CV_PI << endl;
+                //cout << "Euler angles:" << kf_eulers.t() * 180 / CV_PI << endl;
                 roll = kf_eulers.at<double>(0) * 180 / CV_PI;  //roll
                 pitch = kf_eulers.at<double>(1) * 180 / CV_PI; //pitch
                 yaw = kf_eulers.at<double>(2) * 180 / CV_PI;   //yaw
@@ -334,9 +335,9 @@ int main(int argc, char *argv[])
                 z = camera_T.at<double>(2, 0) * 100;
                 printf("Roll:%f, Pitch:%f, Yaw:%f\n", roll, pitch, yaw);
                 printf("X:%f, Y:%f, Z:%f\n", x, y, z);
-                if (got < 100)
+                if (got >0)
                 {
-                    got++;
+                    got--;
                 }
 
                 
@@ -351,13 +352,13 @@ int main(int argc, char *argv[])
         }
         else
         {
-            if (got > 1)
+            if (got < 100)
             {
-                got--;
+                got++;
             }
         }
-        cout<<"camera_T:"<<camera_T<<endl;
-        cout<<"camera_R:"<<camera_R<<endl;
+        //cout<<"camera_T:"<<camera_T<<endl;
+        //cout<<"camera_R:"<<camera_R<<endl;
         // getchar();
 
         if(good_measurement)
@@ -398,7 +399,7 @@ int main(int argc, char *argv[])
         String confidence_s = s6.str();
         cout<<position<<endl;
 	    cout<<attitude<<endl;
-
+        cout<<confidence_s<<endl;
         int font_face = cv::FONT_HERSHEY_COMPLEX;
         int baseline;
         double font_scale = 0.5;
@@ -425,7 +426,7 @@ int main(int argc, char *argv[])
         cv::putText(imageCopy, kf_position, fourth_position, font_face, font_scale, cv::Scalar(0, 25, 255), thinkness, 8, 0);
         cv::putText(imageCopy, kf_attitude, fifth_position, font_face, font_scale, cv::Scalar(0, 25, 255), thinkness, 8, 0);
         cv::putText(imageCopy, confidence_s, six_position, font_face, font_scale, cv::Scalar(0, 25, 255), thinkness, 8, 0);
-        set_vision_position_estimate(float(x_kf),float(y_kf),float(z_kf),float(roll_kf),float(pitch_kf),float(yaw_kf),got);
+        set_vision_position_estimate(float(y_kf),float(x_kf),float(z_kf),float(roll_kf),float(pitch_kf),float(yaw_kf),got);
         //imshow("out", imageCopy);
         time_t now = time(0);
         struct tm  tstruct;
@@ -444,7 +445,7 @@ int main(int argc, char *argv[])
         if (saveVideo)
         {
             writer << imageCopy;
-            cout<<"The frame has been saved"<<endl;
+            //cout<<"The frame has been saved"<<endl;
         }
             
 
