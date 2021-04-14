@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/iking/zq/aruco_board/detect_board
+CMAKE_SOURCE_DIR = /home/iking/zq/Autonomous_Drone_Landing/detect_board
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/iking/zq/aruco_board/detect_board/build
+CMAKE_BINARY_DIR = /home/iking/zq/Autonomous_Drone_Landing/detect_board/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/iking/zq/aruco_board/detect_board/build/CMakeFiles /home/iking/zq/aruco_board/detect_board/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/iking/zq/Autonomous_Drone_Landing/detect_board/build/CMakeFiles /home/iking/zq/Autonomous_Drone_Landing/detect_board/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/iking/zq/aruco_board/detect_board/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/iking/zq/Autonomous_Drone_Landing/detect_board/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -150,32 +150,32 @@ include/Utils.cpp.s:
 	$(MAKE) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/include/Utils.cpp.s
 .PHONY : include/Utils.cpp.s
 
-src/detect_multi_markers_2.o: src/detect_multi_markers_2.cpp.o
+src/sheng.o: src/sheng.cpp.o
 
-.PHONY : src/detect_multi_markers_2.o
+.PHONY : src/sheng.o
 
 # target to build an object file
-src/detect_multi_markers_2.cpp.o:
-	$(MAKE) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o
-.PHONY : src/detect_multi_markers_2.cpp.o
+src/sheng.cpp.o:
+	$(MAKE) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/src/sheng.cpp.o
+.PHONY : src/sheng.cpp.o
 
-src/detect_multi_markers_2.i: src/detect_multi_markers_2.cpp.i
+src/sheng.i: src/sheng.cpp.i
 
-.PHONY : src/detect_multi_markers_2.i
+.PHONY : src/sheng.i
 
 # target to preprocess a source file
-src/detect_multi_markers_2.cpp.i:
-	$(MAKE) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.i
-.PHONY : src/detect_multi_markers_2.cpp.i
+src/sheng.cpp.i:
+	$(MAKE) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/src/sheng.cpp.i
+.PHONY : src/sheng.cpp.i
 
-src/detect_multi_markers_2.s: src/detect_multi_markers_2.cpp.s
+src/sheng.s: src/sheng.cpp.s
 
-.PHONY : src/detect_multi_markers_2.s
+.PHONY : src/sheng.s
 
 # target to generate assembly for a file
-src/detect_multi_markers_2.cpp.s:
-	$(MAKE) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.s
-.PHONY : src/detect_multi_markers_2.cpp.s
+src/sheng.cpp.s:
+	$(MAKE) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/src/sheng.cpp.s
+.PHONY : src/sheng.cpp.s
 
 # Help Target
 help:
@@ -189,9 +189,9 @@ help:
 	@echo "... include/Utils.o"
 	@echo "... include/Utils.i"
 	@echo "... include/Utils.s"
-	@echo "... src/detect_multi_markers_2.o"
-	@echo "... src/detect_multi_markers_2.i"
-	@echo "... src/detect_multi_markers_2.s"
+	@echo "... src/sheng.o"
+	@echo "... src/sheng.i"
+	@echo "... src/sheng.s"
 .PHONY : help
 
 

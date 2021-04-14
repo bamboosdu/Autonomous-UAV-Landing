@@ -5,14 +5,14 @@
   <cols>3</cols>
   <dt>d</dt>
   <data>
-    595.64369679 0. 382.20724389 0.
-    594.41185654 294.042449 0. 0. 1.</data></cameraMatrix>
+    505.32529675 0. 415.05965055 0.
+   505.14739101 318.6384018 0. 0. 1.</data></cameraMatrix>
 <distCoeffs type_id="opencv-matrix">
   <rows>5</rows>
   <cols>1</cols>
   <dt>d</dt>
   <data>
-    0.04924004  0.02264432
-    0.0023689 -0.00144591
-    -0.3011294</data></distCoeffs>
+    0.14877727  0.02551236
+    0.00171092 0.00199276
+    -0.3562632</data></distCoeffs>
 </opencv_storage>

@@ -13,7 +13,7 @@ set(CMAKE_BUILD_TYPE Release)#compile mode
 set(URLAR_LIB ../include/Utils.cpp)
 set (CMAKE_CXX_FLAGS "-g -std=c++11 -Wformat=0 -Wall  ${CMAKE_CXX_FLAGS} ") 
 
-link_directories("/home/iking/zq/aruco_board/detect_board/lib")
+link_directories("/home/iking/zq/Autonomous_Drone_Landing/detect_board/lib")
 # 寻找OpenCV库
 find_package(OpenCV 4.2 REQUIRED)
 find_package(Qt5Widgets REQUIRED)
@@ -23,7 +23,7 @@ find_package(Qt5OpenGL REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(VTK REQUIRED)
 
-add_executable(marker ./src/detect_multi_markers_2.cpp ${URLAR_LIB} )#only one
+add_executable(marker ./src/sheng.cpp ${URLAR_LIB} )#only one
 
 
 # 链接OpenCV库

@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ModelWash.dir/create_aruco_marker.cpp.o"
-  "ModelWash"
   "ModelWash.pdb"
+  "ModelWash"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -102,8 +102,8 @@ int main(int argc, char *argv[])
     String saveName = "./result_001.mp4"; //the name of saved video
     ofstream fout("uttxt.txt");  
       
-    Ptr<cv::aruco::Dictionary> dictionary_d = cv::aruco::getPredefinedDictionary(10);
-    double landpad_det_len = 0.075;
+    Ptr<cv::aruco::Dictionary> dictionary_d = cv::aruco::getPredefinedDictionary(0);
+    double landpad_det_len = 0.086;
 
     /***************************************************************************
      * 
@@ -142,22 +142,22 @@ int main(int argc, char *argv[])
      *                             Get predefined dictionary
      *                             Define the length of axis
      *                             Create board object
-     * 
+     * /
      * ****************************************************************************/
     //aruco board
-    Ptr<aruco::Dictionary> dictionary =
-        aruco::getPredefinedDictionary(aruco::PREDEFINED_DICTIONARY_NAME(dictionaryId));
+   // Ptr<aruco::Dictionary> dictionary =
+     //   aruco::getPredefinedDictionary(aruco::PREDEFINED_DICTIONARY_NAME(dictionaryId));
     //center aruco marker
-    Ptr<aruco::Dictionary> dictionary_center =
-        aruco::getPredefinedDictionary(aruco::PREDEFINED_DICTIONARY_NAME(dictionaryId_center));
+   // Ptr<aruco::Dictionary> dictionary_center =
+     //   aruco::getPredefinedDictionary(aruco::PREDEFINED_DICTIONARY_NAME(dictionaryId_center));
 
     //lenght of axis
     float axisLength = 0.5f * ((float)min(markersX, markersY) * (markerLength + markerSeparation) +
                                markerSeparation);
     // create board object
-    Ptr<aruco::GridBoard> gridboard =
-        aruco::GridBoard::create(markersX, markersY, markerLength, markerSeparation, dictionary);
-    Ptr<aruco::Board> board = gridboard.staticCast<aruco::Board>();
+   // Ptr<aruco::GridBoard> gridboard =
+     //   aruco::GridBoard::create(markersX, markersY, markerLength, markerSeparation, dictionary);
+    //Ptr<aruco::Board> board = gridboard.staticCast<aruco::Board>();
 
     /******************************************************************************
      * 
@@ -270,7 +270,7 @@ int main(int argc, char *argv[])
             int key = 0;
             for (int tt = 0; tt < markerids.size(); tt++)
             {
-                if (19 == markerids[tt])
+                if (10 == markerids[tt])
                 {
                     t = tt;
                     key = markerids[tt];
@@ -280,7 +280,7 @@ int main(int argc, char *argv[])
             {
                 for (int tt = 0; tt < markerids.size(); tt++)
                 {
-                    if (43 == markerids[tt])
+                    if (37 == markerids[tt])
                     {
                         t = tt;
                         key = markerids[tt];
@@ -297,7 +297,7 @@ int main(int argc, char *argv[])
 
                 vector<vector<Point2f>> singMarkerCorner_19, singMarkerCorner_43;
 
-                if (19 == markerids[t])
+                if (10 == markerids[t])
                 {
 
                     singMarkerCorner_19.push_back(markerCorners[t]);
@@ -305,7 +305,7 @@ int main(int argc, char *argv[])
                     tvec = tvec_n[0];
                     rvec = rvec_n[0];
                 }
-                else if (43 == markerids[t])
+                else if (37 == markerids[t])
                 {
 
                     singMarkerCorner_43.push_back(markerCorners[t]);

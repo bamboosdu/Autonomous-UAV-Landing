@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/iking/zq/aruco_board/detect_board
+CMAKE_SOURCE_DIR = /home/iking/zq/Autonomous_Drone_Landing/detect_board
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/iking/zq/aruco_board/detect_board/build
+CMAKE_BINARY_DIR = /home/iking/zq/Autonomous_Drone_Landing/detect_board/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/marker.dir/depend.make
@@ -57,42 +57,42 @@ include CMakeFiles/marker.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/marker.dir/flags.make
 
-CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o: CMakeFiles/marker.dir/flags.make
-CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o: ../src/detect_multi_markers_2.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/iking/zq/aruco_board/detect_board/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o -c /home/iking/zq/aruco_board/detect_board/src/detect_multi_markers_2.cpp
+CMakeFiles/marker.dir/src/sheng.cpp.o: CMakeFiles/marker.dir/flags.make
+CMakeFiles/marker.dir/src/sheng.cpp.o: ../src/sheng.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/iking/zq/Autonomous_Drone_Landing/detect_board/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/marker.dir/src/sheng.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/marker.dir/src/sheng.cpp.o -c /home/iking/zq/Autonomous_Drone_Landing/detect_board/src/sheng.cpp
 
-CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/iking/zq/aruco_board/detect_board/src/detect_multi_markers_2.cpp > CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.i
+CMakeFiles/marker.dir/src/sheng.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/marker.dir/src/sheng.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/iking/zq/Autonomous_Drone_Landing/detect_board/src/sheng.cpp > CMakeFiles/marker.dir/src/sheng.cpp.i
 
-CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/iking/zq/aruco_board/detect_board/src/detect_multi_markers_2.cpp -o CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.s
+CMakeFiles/marker.dir/src/sheng.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/marker.dir/src/sheng.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/iking/zq/Autonomous_Drone_Landing/detect_board/src/sheng.cpp -o CMakeFiles/marker.dir/src/sheng.cpp.s
 
-CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o.requires:
+CMakeFiles/marker.dir/src/sheng.cpp.o.requires:
 
-.PHONY : CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o.requires
+.PHONY : CMakeFiles/marker.dir/src/sheng.cpp.o.requires
 
-CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o.provides: CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o.requires
-	$(MAKE) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o.provides.build
-.PHONY : CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o.provides
+CMakeFiles/marker.dir/src/sheng.cpp.o.provides: CMakeFiles/marker.dir/src/sheng.cpp.o.requires
+	$(MAKE) -f CMakeFiles/marker.dir/build.make CMakeFiles/marker.dir/src/sheng.cpp.o.provides.build
+.PHONY : CMakeFiles/marker.dir/src/sheng.cpp.o.provides
 
-CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o.provides.build: CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o
+CMakeFiles/marker.dir/src/sheng.cpp.o.provides.build: CMakeFiles/marker.dir/src/sheng.cpp.o
 
 
 CMakeFiles/marker.dir/include/Utils.cpp.o: CMakeFiles/marker.dir/flags.make
 CMakeFiles/marker.dir/include/Utils.cpp.o: ../include/Utils.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/iking/zq/aruco_board/detect_board/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/marker.dir/include/Utils.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/marker.dir/include/Utils.cpp.o -c /home/iking/zq/aruco_board/detect_board/include/Utils.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/iking/zq/Autonomous_Drone_Landing/detect_board/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/marker.dir/include/Utils.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/marker.dir/include/Utils.cpp.o -c /home/iking/zq/Autonomous_Drone_Landing/detect_board/include/Utils.cpp
 
 CMakeFiles/marker.dir/include/Utils.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/marker.dir/include/Utils.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/iking/zq/aruco_board/detect_board/include/Utils.cpp > CMakeFiles/marker.dir/include/Utils.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/iking/zq/Autonomous_Drone_Landing/detect_board/include/Utils.cpp > CMakeFiles/marker.dir/include/Utils.cpp.i
 
 CMakeFiles/marker.dir/include/Utils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/marker.dir/include/Utils.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/iking/zq/aruco_board/detect_board/include/Utils.cpp -o CMakeFiles/marker.dir/include/Utils.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/iking/zq/Autonomous_Drone_Landing/detect_board/include/Utils.cpp -o CMakeFiles/marker.dir/include/Utils.cpp.s
 
 CMakeFiles/marker.dir/include/Utils.cpp.o.requires:
 
@@ -107,13 +107,13 @@ CMakeFiles/marker.dir/include/Utils.cpp.o.provides.build: CMakeFiles/marker.dir/
 
 # Object files for target marker
 marker_OBJECTS = \
-"CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o" \
+"CMakeFiles/marker.dir/src/sheng.cpp.o" \
 "CMakeFiles/marker.dir/include/Utils.cpp.o"
 
 # External object files for target marker
 marker_EXTERNAL_OBJECTS =
 
-marker: CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o
+marker: CMakeFiles/marker.dir/src/sheng.cpp.o
 marker: CMakeFiles/marker.dir/include/Utils.cpp.o
 marker: CMakeFiles/marker.dir/build.make
 marker: /usr/local/lib/libopencv_gapi.so.4.2.0
@@ -178,7 +178,7 @@ marker: /usr/local/lib/libopencv_cudaarithm.so.4.2.0
 marker: /usr/local/lib/libopencv_core.so.4.2.0
 marker: /usr/local/lib/libopencv_cudev.so.4.2.0
 marker: CMakeFiles/marker.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/iking/zq/aruco_board/detect_board/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable marker"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/iking/zq/Autonomous_Drone_Landing/detect_board/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable marker"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/marker.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -186,7 +186,7 @@ CMakeFiles/marker.dir/build: marker
 
 .PHONY : CMakeFiles/marker.dir/build
 
-CMakeFiles/marker.dir/requires: CMakeFiles/marker.dir/src/detect_multi_markers_2.cpp.o.requires
+CMakeFiles/marker.dir/requires: CMakeFiles/marker.dir/src/sheng.cpp.o.requires
 CMakeFiles/marker.dir/requires: CMakeFiles/marker.dir/include/Utils.cpp.o.requires
 
 .PHONY : CMakeFiles/marker.dir/requires
@@ -196,6 +196,6 @@ CMakeFiles/marker.dir/clean:
 .PHONY : CMakeFiles/marker.dir/clean
 
 CMakeFiles/marker.dir/depend:
-	cd /home/iking/zq/aruco_board/detect_board/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/iking/zq/aruco_board/detect_board /home/iking/zq/aruco_board/detect_board /home/iking/zq/aruco_board/detect_board/build /home/iking/zq/aruco_board/detect_board/build /home/iking/zq/aruco_board/detect_board/build/CMakeFiles/marker.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/iking/zq/Autonomous_Drone_Landing/detect_board/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/iking/zq/Autonomous_Drone_Landing/detect_board /home/iking/zq/Autonomous_Drone_Landing/detect_board /home/iking/zq/Autonomous_Drone_Landing/detect_board/build /home/iking/zq/Autonomous_Drone_Landing/detect_board/build /home/iking/zq/Autonomous_Drone_Landing/detect_board/build/CMakeFiles/marker.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/marker.dir/depend
 
