@@ -3,6 +3,9 @@
 
 基于 ArUco 标记的无人机自主降落系统，包含相机标定、多尺度标记板生成、标记检测和降落控制等功能。
 
+[![Watch the video]([https://www.youtube.com/watch?v=视频ID](https://www.youtube.com/watch?v=-TyZk7rWsks))
+
+
 ## 项目结构
 
 ```
